@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report: Strategic Equity Sharing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: "Cool Slate" - A professional palette using shades of slate and gray for a neutral, corporate feel, with a strong blue as a primary accent for interactive elements and key highlights.
+        Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, moves into an interactive comparison of the two equity options (the core of the app), visualizes their attributes with a chart, summarizes key advantages, and concludes with clear next steps. This flow guides the user from the "why" to the "what" and finally the "how," making the complex information digestible and decision-oriented. A sticky navigation bar allows for easy movement between these logical sections.
+        Visualization & Content Choices: The core of the report is comparing two complex financial options. To make this clear, a tabbed interface is used for detailed exploration, preventing information overload. A horizontal bar chart from Chart.js compares the options on qualitative factors (like retention power and simplicity), translating abstract concepts into a visual, easy-to-digest format. The most critical interactive element is the "Payout Estimator," which uses sliders to make the abstract financial mechanics of each option tangible, allowing executives to see the direct financial implications of company growth. Key benefits and next steps are presented as clean, modern-looking cards and timelines using HTML/CSS for clarity and impact.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .section {
+            scroll-margin-top: 6rem; /* Offset for sticky header */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        /* Custom slider styles */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #d1d5db; /* gray-300 */
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb; /* blue-600 */
+            cursor: pointer;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb; /* blue-600 */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-slate-900">Strategic Equity Sharing</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold">
+                <a href="#introduction" class="text-slate-600 hover:text-blue-600 transition-colors">Introduction</a>
+                <a href="#comparison" class="text-slate-600 hover:text-blue-600 transition-colors">Option Comparison</a>
+                <a href="#advantages" class="text-slate-600 hover:text-blue-600 transition-colors">Key Advantages</a>
+                <a href="#next-steps" class="text-slate-600 hover:text-blue-600 transition-colors">Next Steps</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Introduction Section -->
+        <section id="introduction" class="section mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Cultivating Long-Term Value</h2>
+            <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">In just 12 months, our company has been established from the ground up. To sustain this growth, we must implement strategic incentives to retain our invaluable senior leadership team.</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="font-bold text-2xl text-slate-800 mb-2">The Challenge: Incentivizing Growth</h3>
+                    <p class="text-slate-600">How can we deeply motivate and retain our senior leadership, tying their rewards to success while maintaining founder equity control?</p>
+                </div>
+                <div class="bg-blue-600 text-white p-8 rounded-lg shadow-md">
+                    <h3 class="font-bold text-2xl mb-2">The Proposed Solution</h3>
+                    <p>Implement strategic "synthetic equity" programs that provide significant financial upside linked to company performance, without the complexities of actual share issuance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Option Comparison Section -->
+        <section id="comparison" class="section mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Solution Comparison</h2>
+            <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">Explore the two proposed models for non-dilutive equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option.</p>
+
+            <!-- Tabs -->
+            <div class="mb-8 flex justify-center border-b border-slate-200">
+                <button id="tab-sars" class="px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600">Phantom Stock / SARs</button>
+                <button id="tab-rsus" class="px-6 py-3 font-semibold text-slate-500">Cash-Settled RSUs</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="content-sars" class="space-y-8">
+                <!-- SARs Content Here -->
+            </div>
+
+            <div id="content-rsus" class="hidden space-y-8">
+                <!-- RSUs Content Here -->
+            </div>
+            
+            <!-- Qualitative Comparison Chart -->
+            <div class="mt-20">
+                 <h3 class="text-3xl font-bold text-center text-slate-900 mb-4">Qualitative Analysis</h3>
+                 <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">This chart provides a visual comparison of the two models across key strategic attributes, helping to highlight their relative strengths for retention and alignment.</p>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Advantages Section -->
+        <section id="advantages" class="section mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Key Advantages of These Models</h2>
+             <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">Both proposed models offer a powerful suite of benefits designed to meet our core objectives of retaining talent and preserving founder equity.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <h3 class="font-bold text-lg mb-2">Zero Dilution</h3>
+                    <p class="text-slate-600">Founders maintain full equity control with these synthetic options.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <h3 class="font-bold text-lg mb-2">Strong Alignment</h3>
+                    <p class="text-slate-600">Incentivizes leadership to drive long-term company value.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <h3 class="font-bold text-lg mb-2">Cash Liquidity</h3>
+                    <p class="text-slate-600">Provides meaningful cash rewards without stock ownership complexities.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <h3 class="font-bold text-lg mb-2">Powerful Retention</h3>
+                    <p class="text-slate-600">Multi-year vesting encourages long-term commitment.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <h3 class="font-bold text-lg mb-2">Flexibility</h3>
+                    <p class="text-slate-600">Each model can be tailored to our specific growth phases.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Steps Section -->
+        <section id="next-steps" class="section">
+            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Implementation Roadmap</h2>
+            <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">To move forward, we recommend a structured approach to finalize and implement the chosen equity sharing program.</p>
+            <div class="relative pl-8 border-l-2 border-slate-200">
+                <div class="mb-8 relative">
+                    <div class="absolute -left-[3.25rem] top-0 h-full flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
+                    </div>
+                    <h3 class="font-bold text-lg">Review & Discussion</h3>
+                    <p class="text-slate-600">Solicit feedback from key stakeholders on the proposed models.</p>
+                </div>
+                <div class="mb-8 relative">
+                    <div class="absolute -left-[3.25rem] top-0 h-full flex items-center">
+                         <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">2</div>
+                    </div>
+                    <h3 class="font-bold text-lg">Detailed Modeling</h3>
+                    <p class="text-slate-600">Conduct financial modeling to understand payout scenarios and budget impact.</p>
+                </div>
+                <div class="mb-8 relative">
+                    <div class="absolute -left-[3.25rem] top-0 h-full flex items-center">
+                         <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">3</div>
+                    </div>
+                    <h3 class="font-bold text-lg">Valuation Framework</h3>
+                    <p class="text-slate-600">Discuss and select a transparent methodology for company valuation.</p>
+                </div>
+                <div class="relative">
+                     <div class="absolute -left-[3.25rem] top-0 h-full flex items-center">
+                         <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">4</div>
+                    </div>
+                    <h3 class="font-bold text-lg">Implementation Plan</h3>
+                    <p class="text-slate-600">Develop a phased approach for roll-out to the senior leadership team.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Data & Content ---
+            const sarsContentHTML = `
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="font-bold text-2xl text-slate-800 mb-4">Phantom Stock / Stock Appreciation Rights (SARs)</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-lg">What It Is</h4>
+                                <p class="text-slate-600">A contract granting the right to a cash payment equal to the appreciation in value of "phantom" shares over a set period. No actual shares are issued.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">How It Works</h4>
+                                <ol class="list-decimal list-inside text-slate-600 space-y-1">
+                                    <li><b>Grant:</b> Awarded "phantom shares" at a current base value.</li>
+                                    <li><b>Vesting:</b> Vests over 3-5 years to ensure retention.</li>
+                                    <li><b>Payout:</b> Receives cash equal to the increase in share value upon vesting or a liquidity event.</li>
+                                </ol>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 pt-4">
+                                <div>
+                                    <h5 class="font-semibold">Benefits</h5>
+                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                        <li>Directly rewards value creation</li>
+                                        <li>No equity dilution</li>
+                                        <li>Provides cash liquidity</li>
+                                        <li>Simple for recipient</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold">Considerations</h5>
+                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                        <li>Requires regular company valuations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-slate-800 mb-4">Interactive Payout Estimator</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="sars-growth" class="block font-semibold text-sm mb-1">Company Value Growth: <span id="sars-growth-value" class="font-bold text-blue-600">100%</span></label>
+                                <input type="range" id="sars-growth" min="0" max="500" value="100" step="10">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="sars-shares" class="block font-semibold text-sm mb-1">Phantom Shares</label>
+                                    <input type="number" id="sars-shares" value="10000" class="w-full p-2 border border-slate-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="sars-initial-value" class="block font-semibold text-sm mb-1">Initial Value/Share</label>
+                                    <input type="number" id="sars-initial-value" value="10" class="w-full p-2 border border-slate-300 rounded-md">
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-md text-center">
+                                <p class="text-sm text-slate-500">Estimated Cash Payout</p>
+                                <p id="sars-payout" class="text-3xl font-bold text-blue-600">$1,000,000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const rsusContentHTML = `
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="font-bold text-2xl text-slate-800 mb-4">Cash-Settled Restricted Stock Units (RSUs)</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-lg">What It Is</h4>
+                                <p class="text-slate-600">A promise to pay a cash equivalent of a specific number of company shares upon vesting. The value is settled entirely in cash.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">How It Works</h4>
+                                <ol class="list-decimal list-inside text-slate-600 space-y-1">
+                                    <li><b>Grant:</b> Awarded "cash-settled RSU units".</li>
+                                    <li><b>Vesting:</b> Vests over a 3-5 year period based on continued employment.</li>
+                                    <li><b>Payout:</b> Receives cash equal to the full market value of the shares at the vesting date.</li>
+                                </ol>
+                            </div>
+                             <div class="grid grid-cols-2 gap-4 pt-4">
+                                <div>
+                                    <h5 class="font-semibold">Benefits</h5>
+                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                        <li>Strong retention tool</li>
+                                        <li>Tied to total company value</li>
+                                        <li>Provides cash liquidity</li>
+                                        <li>Less volatility risk for recipient</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold">Considerations</h5>
+                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                        <li>Requires valuation at vesting</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-slate-800 mb-4">Interactive Payout Estimator</h3>
+                        <div class="space-y-4">
+                           <div>
+                                <label for="rsus-growth" class="block font-semibold text-sm mb-1">Company Value Growth: <span id="rsus-growth-value" class="font-bold text-blue-600">100%</span></label>
+                                <input type="range" id="rsus-growth" min="0" max="500" value="100" step="10">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="rsus-units" class="block font-semibold text-sm mb-1">RSU Units</label>
+                                    <input type="number" id="rsus-units" value="10000" class="w-full p-2 border border-slate-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="rsus-initial-value" class="block font-semibold text-sm mb-1">Initial Value/Share</label>
+                                    <input type="number" id="rsus-initial-value" value="10" class="w-full p-2 border border-slate-300 rounded-md">
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-md text-center">
+                                <p class="text-sm text-slate-500">Estimated Cash Payout</p>
+                                <p id="rsus-payout" class="text-3xl font-bold text-blue-600">$2,000,000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // --- Initial Content Population ---
+            document.getElementById('content-sars').innerHTML = sarsContentHTML;
+            document.getElementById('content-rsus').innerHTML = rsusContentHTML;
+
+
+            // --- Tab Functionality ---
+            const tabSars = document.getElementById('tab-sars');
+            const tabRsus = document.getElementById('tab-rsus');
+            const contentSars = document.getElementById('content-sars');
+            const contentRsus = document.getElementById('content-rsus');
+
+            tabSars.addEventListener('click', () => {
+                contentSars.classList.remove('hidden');
+                contentRsus.classList.add('hidden');
+                tabSars.classList.add('text-blue-600', 'border-blue-600');
+                tabRsus.classList.remove('text-blue-600', 'border-blue-600');
+                tabRsus.classList.add('text-slate-500');
+            });
+
+            tabRsus.addEventListener('click', () => {
+                contentSars.classList.add('hidden');
+                contentRsus.classList.remove('hidden');
+                tabRsus.classList.add('text-blue-600', 'border-blue-600');
+                tabSars.classList.remove('text-blue-600', 'border-blue-600');
+                tabSars.classList.add('text-slate-500');
+            });
+
+            // --- Payout Calculator Logic ---
+            function setupCalculator(type) {
+                const growthSlider = document.getElementById(`${type}-growth`);
+                const growthValue = document.getElementById(`${type}-growth-value`);
+                const sharesInput = document.getElementById(type === 'sars' ? 'sars-shares' : 'rsus-units');
+                const initialValueInput = document.getElementById(`${type}-initial-value`);
+                const payoutDisplay = document.getElementById(`${type}-payout`);
+
+                function calculatePayout() {
+                    const growth = parseFloat(growthSlider.value);
+                    const shares = parseFloat(sharesInput.value) || 0;
+                    const initialValue = parseFloat(initialValueInput.value) || 0;
+
+                    growthValue.textContent = `${growth}%`;
+
+                    const initialTotalValue = shares * initialValue;
+                    const finalValuePerShare = initialValue * (1 + growth / 100);
+                    const finalTotalValue = shares * finalValuePerShare;
+                    
+                    let payout = 0;
+                    if (type === 'sars') {
+                        payout = finalTotalValue - initialTotalValue;
+                    } else { // rsus
+                        payout = finalTotalValue;
+                    }
+
+                    payoutDisplay.textContent = `$${payout.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+                }
+
+                growthSlider.addEventListener('input', calculatePayout);
+                sharesInput.addEventListener('input', calculatePayout);
+                initialValueInput.addEventListener('input', calculatePayout);
+                
+                // Initial calculation
+                calculatePayout();
+            }
+
+            setupCalculator('sars');
+            setupCalculator('rsus');
+
+            // --- Comparison Chart ---
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Retention Power', 'Alignment with Growth', 'Simplicity (for Recipient)', 'Volatility Risk Mitigation'],
+                    datasets: [{
+                        label: 'Phantom Stock / SARs',
+                        data: [4, 5, 4, 3],
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Cash-Settled RSUs',
+                        data: [5, 4, 5, 5],
+                        backgroundColor: 'rgba(107, 114, 128, 0.7)',
+                        borderColor: 'rgba(107, 114, 128, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 5,
+                            title: {
+                                display: true,
+                                text: 'Score (1=Low, 5=High)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Model Attributes Comparison',
+                            font: { size: 18 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + ' / 5';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
