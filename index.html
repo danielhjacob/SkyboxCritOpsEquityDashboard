@@ -9,18 +9,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: "Cool Slate" - A professional palette using shades of slate and gray for a neutral, corporate feel, with a strong blue as a primary accent for interactive elements and key highlights. -->
+    <!-- Chosen Palette: CriticalOps Brand Palette (Bright Blue: RGB 0, 157, 210; Cool Gray: RGB 146, 140, 140; PMS Black: RGB 0, 0, 0; White: RGB 255, 255, 255; Bright Orange: RGB 243, 120, 33) -->
     <!-- Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, moves into an interactive comparison of the three equity options (the core of the app), visualizes their attributes with a chart, summarizes key advantages, and concludes with a robust horizontal implementation roadmap. This flow guides the user from the "why" to the "what" and finally the "how," making complex financial concepts digestible and decision-oriented. A sticky navigation bar allows for easy movement between these logical sections, enhancing user understanding and ease of navigation. -->
     <!-- Visualization & Content Choices: To compare complex financial options, a tabbed interface allows for detailed exploration without information overload. A horizontal bar chart from Chart.js compares the options on qualitative factors (e.g., retention, simplicity), translating abstract concepts into visual formats. The critical interactive element is the "Payout Estimator" for each option, using sliders and inputs to make abstract financial mechanics tangible and demonstrate direct financial implications of company growth and dividend payouts. Key benefits and the implementation roadmap are presented using clean HTML/CSS layouts, with the roadmap specifically designed as a horizontal timeline with benchmarks to visually represent the project phases. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
+        :root {
+            --color-primary-blue: rgb(0, 157, 210);
+            --color-cool-gray: rgb(146, 140, 140);
+            --color-pms-black: rgb(0, 0, 0);
+            --color-white: rgb(255, 255, 255);
+            --color-bright-orange: rgb(243, 120, 33);
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
-            color: #1e293b; /* slate-800 */
+            background-color: var(--color-white);
+            color: var(--color-pms-black);
         }
         .section {
-            scroll-margin-top: 6rem; /* Offset for sticky header */
+            scroll-margin-top: 6rem;
         }
         .chart-container {
             position: relative;
@@ -37,7 +44,7 @@
             width: 100%;
             height: 8px;
             border-radius: 5px;
-            background: #d1d5db; /* gray-300 */
+            background: var(--color-cool-gray);
             outline: none;
             opacity: 0.7;
             transition: opacity .2s;
@@ -51,14 +58,14 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #2563eb; /* blue-600 */
+            background: var(--color-primary-blue);
             cursor: pointer;
         }
         input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #2563eb; /* blue-600 */
+            background: var(--color-primary-blue);
             cursor: pointer;
         }
         .timeline-container {
@@ -68,8 +75,8 @@
         .timeline {
             display: flex;
             position: relative;
-            height: 200px; /* Sufficient height for alternating content */
-            padding: 0 0; /* No top/bottom padding here */
+            height: 200px;
+            padding: 0 0;
             min-width: 900px;
         }
         .timeline-line {
@@ -78,66 +85,51 @@
             left: 0;
             right: 0;
             height: 2px;
-            background-color: #cbd5e1; /* slate-300 */
+            background-color: var(--color-cool-gray);
             transform: translateY(-50%);
             z-index: 5;
         }
         .timeline-item {
-            flex: 1; /* Distribute items evenly */
-            position: relative; /* For positioning content and dot */
+            flex: 1;
+            position: relative;
             text-align: center;
             z-index: 10;
-            height: 100%; /* Take full height of the timeline container */
+            height: 100%;
             display: flex;
-            flex-direction: column; /* Stack content vertically */
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Default vertical centering before specific positioning */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-
-        /* Common dot style */
         .timeline-dot {
             width: 16px;
             height: 16px;
-            background-color: #2563eb; /* blue-600 */
+            background-color: var(--color-primary-blue);
             border-radius: 50%;
-            position: absolute; /* Position relative to .timeline-item */
+            position: absolute;
             left: 50%;
-            top: 50%; /* Initial positioning to center on the line */
-            transform: translate(-50%, -50%); /* Fine-tune centering */
+            top: 50%;
+            transform: translate(-50%, -50%);
             z-index: 10;
         }
-
-        /* Content common styles */
         .timeline-content {
             font-size: 0.9rem;
-            color: #475569; /* slate-600 */
-            position: absolute; /* Position relative to .timeline-item */
+            color: var(--color-pms-black);
+            position: absolute;
             left: 50%;
-            transform: translateX(-50%); /* Center horizontally */
-            width: 130px; /* Constrain width to prevent overlap with neighbors */
+            transform: translateX(-50%);
+            width: 130px;
             line-height: 1.3;
             text-align: center;
         }
-
-        /* Styles for items with content on top of the line */
         .timeline-item.top .timeline-content {
-            bottom: calc(50% + 20px); /* Position content above the line + dot */
+            bottom: calc(50% + 20px);
         }
-        .timeline-item.top .timeline-dot {
-            /* Dot stays on the line (default absolute 50% top) */
-        }
-
-        /* Styles for items with content below the line */
         .timeline-item.bottom .timeline-content {
-            top: calc(50% + 20px); /* Position content below the line + dot */
+            top: calc(50% + 20px);
         }
-        .timeline-item.bottom .timeline-dot {
-            /* Dot stays on the line (default absolute 50% top) */
-        }
-
         .timeline-title {
             font-weight: 600;
-            color: #1e293b; /* slate-800 */
+            color: var(--color-pms-black);
             margin-bottom: 4px;
         }
     </style>
@@ -145,14 +137,18 @@
 <body class="antialiased">
 
     <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50" style="background-color: rgba(255, 255, 255, 0.8);">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-slate-900">Strategic Equity Sharing</h1>
-            <div class="hidden md:flex space-x-6 text-sm font-semibold">
-                <a href="#introduction" class="text-slate-600 hover:text-blue-600 transition-colors">Introduction</a>
-                <a href="#comparison" class="text-slate-600 hover:text-blue-600 transition-colors">Option Comparison</a>
-                <a href="#advantages" class="text-slate-600 hover:text-blue-600 transition-colors">Key Advantages</a>
-                <a href="#next-steps" class="text-slate-600 hover:text-blue-600 transition-colors">Roadmap</a>
+            <div class="flex space-x-6 text-sm font-semibold">
+                <a href="#introduction" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Introduction</a>
+                <a href="#comparison" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Option Comparison</a>
+                <a href="#advantages" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Key Advantages</a>
+                <a href="#next-steps" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Roadmap</a>
+            </div>
+            <!-- Logo: Blue cloud and black "CriticalOps" wordmark -->
+            <div class="flex items-center space-x-1">
+                <span class="text-3xl" style="color: var(--color-primary-blue);">☁️</span>
+                <span class="text-2xl font-extrabold" style="color: var(--color-pms-black);">CriticalOps</span>
             </div>
         </nav>
     </header>
@@ -161,15 +157,15 @@
 
         <!-- Introduction Section -->
         <section id="introduction" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Cultivating Long-Term Value</h2>
-            <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">Within its first 12 months, Skybox CritOps has successfully launched a hyperscale data center operations platform, demonstrating rapid establishment and market entry. To sustain our aggressive growth trajectory and ensure long-term leadership commitment, implementing competitive incentives that align with Skybox's exponential value creation is imperative.</p>
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Skybox CriticalOps Executive Equity Sharing Program</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Within its first 12 months, Skybox CritOps has successfully launched a hyperscale data center operations platform, demonstrating rapid establishment and market entry. To sustain our aggressive growth trajectory and ensure long-term leadership commitment, implementing competitive incentives that align with Skybox's exponential value creation is imperative.</p>
             
             <div class="grid md:grid-cols-2 gap-8 items-center">
                 <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="font-bold text-2xl text-slate-800 mb-2">The Challenge: Incentivizing Growth</h3>
-                    <p class="text-slate-600">How can we deeply motivate and retain our senior leadership, tying their rewards to success while maintaining founder equity control?</p>
+                    <h3 class="font-bold text-2xl mb-2" style="color: var(--color-pms-black);">The Challenge: Incentivizing Growth</h3>
+                    <p style="color: var(--color-cool-gray);">How can we deeply motivate and retain our senior leadership, tying their rewards to success while maintaining founder equity control?</p>
                 </div>
-                <div class="bg-blue-600 text-white p-8 rounded-lg shadow-md">
+                <div class="p-8 rounded-lg shadow-md" style="background-color: var(--color-primary-blue); color: var(--color-white);">
                     <h3 class="font-bold text-2xl mb-2">The Proposed Solution</h3>
                     <p>Implement strategic "synthetic equity" programs that provide significant financial upside linked to company performance, without the complexities of actual share issuance.</p>
                 </div>
@@ -178,14 +174,14 @@
 
         <!-- Option Comparison Section -->
         <section id="comparison" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Solution Comparison</h2>
-            <p class="text-center text-lg text-slate-500 max-w-4xl mx-auto mb-12">Explore the three proposed models for non-dilutive equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Solution Comparison</h2>
+            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the three proposed models for non-dilutive equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
 
             <!-- Tabs -->
-            <div class="mb-8 flex justify-center border-b border-slate-200 overflow-x-auto">
-                <button id="tab-sars" class="flex-shrink-0 px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600">Phantom Stock / SARs</button>
-                <button id="tab-rsus" class="flex-shrink-0 px-6 py-3 font-semibold text-slate-500">Cash-Settled RSUs</button>
-                <button id="tab-deus" class="flex-shrink-0 px-6 py-3 font-semibold text-slate-500">Dividend Equivalent Units</button>
+            <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
+                <button id="tab-sars" class="flex-shrink-0 px-6 py-3 font-semibold border-b-2" style="color: var(--color-primary-blue); border-color: var(--color-primary-blue);">Phantom Stock / SARs</button>
+                <button id="tab-rsus" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Cash-Settled RSUs</button>
+                <button id="tab-deus" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Dividend Equivalent Units</button>
             </div>
 
             <!-- Tab Content Containers -->
@@ -195,8 +191,8 @@
             
             <!-- Qualitative Comparison Chart -->
             <div class="mt-20">
-                 <h3 class="text-3xl font-bold text-center text-slate-900 mb-4">Qualitative Analysis</h3>
-                 <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">This chart provides a visual comparison of the three models across key strategic attributes, highlighting their relative strengths for retention, alignment, and simplicity.</p>
+                 <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis</h3>
+                 <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the three models across key strategic attributes, highlighting their relative strengths for retention, alignment, and simplicity.</p>
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <div class="chart-container">
                         <canvas id="comparisonChart"></canvas>
@@ -207,83 +203,83 @@
 
         <!-- Key Advantages Section -->
         <section id="advantages" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Key Advantages of These Models</h2>
-             <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">All proposed models offer a powerful suite of benefits designed to meet our core objectives of retaining talent, preserving founder equity, and driving continuous performance.</p>
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Key Advantages of These Models</h2>
+             <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">All proposed models offer a powerful suite of benefits designed to meet our core objectives of retaining talent, preserving founder equity, and driving continuous performance.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-                    <h3 class="font-bold text-lg mb-2">Zero Dilution</h3>
-                    <p class="text-slate-600">Founders maintain full equity control with these synthetic options.</p>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Zero Dilution</h3>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with these synthetic options.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-                    <h3 class="font-bold text-lg mb-2">Strong Alignment</h3>
-                    <p class="text-slate-600">Incentivizes leadership to drive long-term company value and specific performance goals.</p>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Strong Alignment</h3>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Incentivizes leadership to drive long-term company value and specific performance goals.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-                    <h3 class="font-bold text-lg mb-2">Cash Liquidity</h3>
-                    <p class="text-slate-600">Provides meaningful cash rewards, simplifying financial realization for recipients.</p>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Cash Liquidity</h3>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Provides meaningful cash rewards, simplifying financial realization for recipients.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-                    <h3 class="font-bold text-lg mb-2">Powerful Retention</h3>
-                    <p class="text-slate-600">Multi-year vesting schedules and performance periods encourage long-term commitment.</p>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Powerful Retention</h3>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Multi-year vesting schedules and performance periods encourage long-term commitment.</p>
                 </div>
-                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-                    <h3 class="font-bold text-lg mb-2">Regular Cash Flow</h3>
-                    <p class="text-slate-600">Dividend equivalents offer consistent, periodic payouts, enhancing liquidity.</p>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Regular Cash Flow</h3>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Dividend equivalents offer consistent, periodic payouts, enhancing liquidity.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
-                    <h3 class="font-bold text-lg mb-2">Flexibility</h3>
-                    <p class="text-slate-600">Each model can be tailored to our specific growth phases and leadership structure.</p>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Flexibility</h3>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Each model can be tailored to our specific growth phases and leadership structure.</p>
                 </div>
             </div>
         </section>
 
         <!-- Next Steps Section - Horizontal Roadmap -->
         <section id="next-steps" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center text-slate-900 mb-4">Implementation Roadmap</h2>
-            <p class="text-center text-lg text-slate-500 max-w-3xl mx-auto mb-12">To move forward efficiently, we propose a structured roadmap with key milestones to finalize and implement the chosen equity sharing program.</p>
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Implementation Roadmap</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">To move forward efficiently, we propose a structured roadmap with key milestones to finalize and implement the chosen equity sharing program.</p>
             
             <div class="timeline-container bg-white p-6 rounded-lg shadow-md">
                 <div class="timeline">
                     <div class="timeline-line"></div>
                     
                     <div class="timeline-item top">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q3 2025</div>
                             Program Design & Legal Review
                         </div>
-                        <div class="timeline-dot"></div>
                     </div>
                     
                     <div class="timeline-item bottom">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q4 2025</div>
                             Board Approval & Documentation Finalization
                         </div>
-                        <div class="timeline-dot"></div>
                     </div>
                     
                     <div class="timeline-item top">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q1 2026</div>
                             Leadership Communication & Grant Issuance
                         </div>
-                        <div class="timeline-dot"></div>
                     </div>
                     
                     <div class="timeline-item bottom">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q2 2026</div>
                             First Vesting / Payout Calculation
                         </div>
-                        <div class="timeline-dot"></div>
                     </div>
 
                     <div class="timeline-item top">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Ongoing</div>
                             Periodic Review & Adjustments
                         </div>
-                        <div class="timeline-dot"></div>
                     </div>
                 </div>
             </div>
@@ -294,23 +290,22 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            const INITIAL_COMPANY_VALUE = 10; // Per share/unit
+            const INITIAL_COMPANY_VALUE = 10;
             const INITIAL_UNITS = 10000;
-            const ESTIMATION_PERIOD_YEARS = 3; // Changed from 5 to 3
+            const ESTIMATION_PERIOD_YEARS = 3;
 
-            // --- Content for each tab ---
             const sarsContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl text-slate-800 mb-4">Phantom Stock / Stock Appreciation Rights (SARs)</h3>
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Phantom Stock / Stock Appreciation Rights (SARs)</h3>
                         <div class="space-y-4">
                             <div>
                                 <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-slate-600">A contract granting the right to a cash payment equal to the appreciation in value of "phantom" shares over a set period. No actual shares are issued.</p>
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A contract granting the right to a cash payment equal to the appreciation in value of "phantom" shares over a set period. No actual shares are issued.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg">How It Works</h4>
-                                <ol class="list-decimal list-inside text-slate-600 space-y-1">
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
                                     <li><b>Grant:</b> Awarded "phantom shares" at a current base value.</li>
                                     <li><b>Vesting:</b> Vests over 1-3 years to ensure retention.</li>
                                     <li><b>Payout:</b> Receives cash equal to the increase in share value upon vesting or a liquidity event.</li>
@@ -318,8 +313,8 @@
                             </div>
                             <div class="grid grid-cols-2 gap-4 pt-4">
                                 <div>
-                                    <h5 class="font-semibold">Benefits</h5>
-                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Directly rewards value creation</li>
                                         <li>No equity dilution</li>
                                         <li>Provides cash liquidity</li>
@@ -327,8 +322,8 @@
                                     </ul>
                                 </div>
                                 <div>
-                                    <h5 class="font-semibold">Considerations</h5>
-                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Requires regular company valuations</li>
                                     </ul>
                                 </div>
@@ -336,25 +331,25 @@
                         </div>
                     </div>
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-xl text-slate-800 mb-4">Interactive Payout Estimator</h3>
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
                         <div class="space-y-4">
                             <div>
-                                <label for="sars-growth" class="block font-semibold text-sm mb-1">Company Value Growth (over vesting period, 1-3 years): <span id="sars-growth-value" class="font-bold text-blue-600">100%</span></label>
+                                <label for="sars-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over vesting period, 1-3 years): <span id="sars-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
                                 <input type="range" id="sars-growth" min="0" max="500" value="100" step="10">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label for="sars-shares" class="block font-semibold text-sm mb-1">Phantom Shares Granted</label>
-                                    <input type="number" id="sars-shares" value="${INITIAL_UNITS}" class="w-full p-2 border border-slate-300 rounded-md">
+                                    <label for="sars-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Phantom Shares Granted</label>
+                                    <input type="number" id="sars-shares" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                                 <div>
-                                    <label for="sars-initial-value" class="block font-semibold text-sm mb-1">Initial Value Per Share ($)</label>
-                                    <input type="number" id="sars-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-slate-300 rounded-md">
+                                    <label for="sars-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Share ($)</label>
+                                    <input type="number" id="sars-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                             </div>
-                            <div class="bg-slate-50 p-4 rounded-md text-center">
-                                <p class="text-sm text-slate-500">Estimated Cash Payout</p>
-                                <p id="sars-payout" class="text-3xl font-bold text-blue-600">$1,000,000</p>
+                            <div class="p-4 rounded-md text-center" style="background-color: var(--color-white);">
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cash Payout</p>
+                                <p id="sars-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000,000</p>
                             </div>
                         </div>
                     </div>
@@ -364,15 +359,15 @@
             const rsusContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl text-slate-800 mb-4">Cash-Settled Restricted Stock Units (RSUs)</h3>
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Cash-Settled Restricted Stock Units (RSUs)</h3>
                         <div class="space-y-4">
                             <div>
                                 <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-slate-600">A promise to pay a cash equivalent of a specific number of company shares upon vesting. The value is settled entirely in cash.</p>
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A promise to pay a cash equivalent of a specific number of company shares upon vesting. The value is settled entirely in cash.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg">How It Works</h4>
-                                <ol class="list-decimal list-inside text-slate-600 space-y-1">
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
                                     <li><b>Grant:</b> Awarded "cash-settled RSU units".</li>
                                     <li><b>Vesting:</b> Vests over 1-3 years based on continued employment.</li>
                                     <li><b>Payout:</b> Receives cash equal to the full market value of the shares at the vesting date.</li>
@@ -380,8 +375,8 @@
                             </div>
                              <div class="grid grid-cols-2 gap-4 pt-4">
                                 <div>
-                                    <h5 class="font-semibold">Benefits</h5>
-                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Strong retention tool</li>
                                         <li>Tied to total company value</li>
                                         <li>Provides cash liquidity</li>
@@ -389,8 +384,8 @@
                                     </ul>
                                 </div>
                                 <div>
-                                    <h5 class="font-semibold">Considerations</h5>
-                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Requires valuation at vesting</li>
                                     </ul>
                                 </div>
@@ -398,25 +393,25 @@
                         </div>
                     </div>
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-xl text-slate-800 mb-4">Interactive Payout Estimator</h3>
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
                         <div class="space-y-4">
                            <div>
-                                <label for="rsus-growth" class="block font-semibold text-sm mb-1">Company Value Growth (over vesting period, 1-3 years): <span id="rsus-growth-value" class="font-bold text-blue-600">100%</span></label>
+                                <label for="rsus-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over vesting period, 1-3 years): <span id="rsus-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
                                 <input type="range" id="rsus-growth" min="0" max="500" value="100" step="10">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label for="rsus-units" class="block font-semibold text-sm mb-1">RSU Units Granted</label>
-                                    <input type="number" id="rsus-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-slate-300 rounded-md">
+                                    <label for="rsus-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">RSU Units Granted</label>
+                                    <input type="number" id="rsus-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                                 <div>
-                                    <label for="rsus-initial-value" class="block font-semibold text-sm mb-1">Initial Value Per Unit ($)</label>
-                                    <input type="number" id="rsus-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-slate-300 rounded-md">
+                                    <label for="rsus-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Unit ($)</label>
+                                    <input type="number" id="rsus-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                             </div>
-                            <div class="bg-slate-50 p-4 rounded-md text-center">
-                                <p class="text-sm text-slate-500">Estimated Cash Payout</p>
-                                <p id="rsus-payout" class="text-3xl font-bold text-blue-600">$2,000,000</p>
+                            <div class="p-4 rounded-md text-center" style="background-color: var(--color-white);">
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cash Payout</p>
+                                <p id="rsus-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$2,000,000</p>
                             </div>
                         </div>
                     </div>
@@ -426,15 +421,15 @@
             const deusContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl text-slate-800 mb-4">Dividend Equivalent Units (DEUs)</h3>
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Dividend Equivalent Units (DEUs)</h3>
                         <div class="space-y-4">
                             <div>
                                 <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-slate-600">A form of synthetic equity providing cash payments equivalent to dividends on actual shares, without real share ownership.</p>
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A form of synthetic equity providing cash payments equivalent to dividends on actual shares, without real share ownership.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg">How It Works</h4>
-                                <ol class="list-decimal list-inside text-slate-600 space-y-1">
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
                                     <li><b>Grant:</b> Awarded DEU units, standalone or with other synthetic equity.</li>
                                     <li><b>Calculation:</b> "Dividend equivalent" per unit calculated periodically (e.g., quarterly) based on a percentage of company value or profit.</li>
                                     <li><b>Payout:</b> Cash equivalent is paid out at specified frequency for all units.</li>
@@ -442,8 +437,8 @@
                             </div>
                             <div class="grid grid-cols-2 gap-4 pt-4">
                                 <div>
-                                    <h5 class="font-semibold">Benefits</h5>
-                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Regular cash flow</li>
                                         <li>Continuous engagement</li>
                                         <li>Enhanced attractiveness</li>
@@ -451,8 +446,8 @@
                                     </ul>
                                 </div>
                                 <div>
-                                    <h5 class="font-semibold">Considerations</h5>
-                                    <ul class="list-disc list-inside text-sm text-slate-500">
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Requires robust profit/value calculation</li>
                                         <li>Consistent cash flow for payouts</li>
                                     </ul>
@@ -461,50 +456,47 @@
                         </div>
                     </div>
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-xl text-slate-800 mb-4">Interactive Payout Estimator</h3>
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
                         <div class="space-y-4">
                             <div>
-                                <label for="deus-growth" class="block font-semibold text-sm mb-1">Company Value Growth (over 1-3 years): <span id="deus-growth-value" class="font-bold text-blue-600">100%</span></label>
+                                <label for="deus-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over 1-3 years): <span id="deus-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
                                 <input type="range" id="deus-growth" min="0" max="500" value="100" step="10">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label for="deus-units" class="block font-semibold text-sm mb-1">DEU Units Granted</label>
-                                    <input type="number" id="deus-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-slate-300 rounded-md">
+                                    <label for="deus-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">DEU Units Granted</label>
+                                    <input type="number" id="deus-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                                 <div>
-                                    <label for="deus-initial-value" class="block font-semibold text-sm mb-1">Initial Value Per Unit ($)</label>
-                                    <input type="number" id="deus-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-slate-300 rounded-md">
+                                    <label for="deus-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Unit ($)</label>
+                                    <input type="number" id="deus-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label for="deus-dividend-rate" class="block font-semibold text-sm mb-1">Annual Payout Rate (% of current unit value): <span id="deus-dividend-rate-value" class="font-bold text-blue-600">1%</span></label>
+                                <label for="deus-dividend-rate" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Payout Rate (% of current unit value): <span id="deus-dividend-rate-value" class="font-bold" style="color: var(--color-primary-blue);">1%</span></label>
                                 <input type="range" id="deus-dividend-rate" min="0" max="10" value="1" step="0.1">
                             </div>
                             <div class="mb-4">
-                                <label for="deus-frequency" class="block font-semibold text-sm mb-1">Payout Frequency</label>
-                                <select id="deus-frequency" class="w-full p-2 border border-slate-300 rounded-md">
+                                <label for="deus-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
+                                <select id="deus-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                     <option value="4">Quarterly</option>
                                     <option value="2">Semi-annually</option>
                                     <option value="1">Annually</option>
                                 </select>
                             </div>
-                            <div class="bg-slate-50 p-4 rounded-md text-center">
-                                <p class="text-sm text-slate-500">Estimated Cumulative Payout (over ${ESTIMATION_PERIOD_YEARS} years)</p>
-                                <p id="deus-payout" class="text-3xl font-bold text-blue-600">$1,000</p>
+                            <div class="p-4 rounded-md text-center" style="background-color: var(--color-white);">
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cumulative Payout (over ${ESTIMATION_PERIOD_YEARS} years)</p>
+                                <p id="deus-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000</p>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
             
-            // --- Initial Content Population ---
             document.getElementById('content-sars').innerHTML = sarsContentHTML;
             document.getElementById('content-rsus').innerHTML = rsusContentHTML;
             document.getElementById('content-deus').innerHTML = deusContentHTML;
 
-
-            // --- Tab Functionality ---
             const tabSars = document.getElementById('tab-sars');
             const tabRsus = document.getElementById('tab-rsus');
             const tabDeus = document.getElementById('tab-deus');
@@ -515,12 +507,15 @@
             function activateTab(activeTab, activeContent) {
                 [tabSars, tabRsus, tabDeus].forEach(tab => {
                     tab.classList.remove('text-blue-600', 'border-blue-600');
-                    tab.classList.add('text-slate-500');
+                    tab.classList.add('text-gray-500');
+                    tab.style.color = 'var(--color-cool-gray)';
+                    tab.style.borderColor = 'transparent';
                 });
                 [contentSars, contentRsus, contentDeus].forEach(content => content.classList.add('hidden'));
 
                 activeTab.classList.add('text-blue-600', 'border-blue-600');
-                activeTab.classList.remove('text-slate-500');
+                activeTab.style.color = 'var(--color-primary-blue)';
+                activeTab.style.borderColor = 'var(--color-primary-blue)';
                 activeContent.classList.remove('hidden');
             }
 
@@ -528,10 +523,8 @@
             tabRsus.addEventListener('click', () => activateTab(tabRsus, contentRsus));
             tabDeus.addEventListener('click', () => activateTab(tabDeus, contentDeus));
 
-            // Activate SARs tab by default
             activateTab(tabSars, contentSars);
 
-            // --- Payout Calculator Logic ---
             function setupCalculator(type) {
                 const growthSlider = document.getElementById(`${type}-growth`);
                 const growthValue = document.getElementById(`${type}-growth-value`);
@@ -539,7 +532,6 @@
                 const initialValueInput = document.getElementById(`${type}-initial-value`);
                 const payoutDisplay = document.getElementById(`${type}-payout`);
 
-                // Specific for DEUs
                 const dividendRateSlider = document.getElementById('deus-dividend-rate');
                 const dividendRateValue = document.getElementById('deus-dividend-rate-value');
                 const frequencySelect = document.getElementById('deus-frequency');
@@ -560,19 +552,17 @@
                         payout = finalValuePerShare * units;
                     } else if (type === 'deus') {
                         const annualRate = parseFloat(dividendRateSlider.value) / 100;
-                        const frequency = parseInt(frequencySelect.value); // Quarterly (4), Semi (2), Annually (1)
+                        const frequency = parseInt(frequencySelect.value);
                         
                         let cumulativePayout = 0;
-                        let currentValuePerUnit = initialValue; // Start with initial value for first period
+                        let currentValuePerUnit = initialValue;
 
                         dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
 
                         for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                            // Apply growth annually to current value
-                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS)); // Simplified annual average growth
+                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS));
 
                             for (let period = 0; period < frequency; period++) {
-                                // Calculate dividend for the period based on current value per unit and annual rate / frequency
                                 const periodDividendPerUnit = currentValuePerUnit * (annualRate / frequency);
                                 cumulativePayout += (periodDividendPerUnit * units);
                             }
@@ -592,7 +582,6 @@
                     frequencySelect.addEventListener('change', calculatePayout);
                 }
                 
-                // Initial calculation
                 calculatePayout();
             }
 
@@ -600,8 +589,6 @@
             setupCalculator('rsus');
             setupCalculator('deus');
 
-
-            // --- Comparison Chart ---
             const ctx = document.getElementById('comparisonChart').getContext('2d');
             const comparisonChart = new Chart(ctx, {
                 type: 'bar',
@@ -609,21 +596,21 @@
                     labels: ['Retention Power', 'Alignment with Growth', 'Simplicity (for Recipient)', 'Volatility Risk Mitigation', 'Regular Liquidity'],
                     datasets: [{
                         label: 'Phantom Stock / SARs',
-                        data: [4, 5, 4, 3, 1], // Scores out of 5
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // blue-600
-                        borderColor: 'rgba(59, 130, 246, 1)',
+                        data: [4, 5, 4, 3, 1],
+                        backgroundColor: 'rgba(0, 157, 210, 0.7)',
+                        borderColor: 'rgb(0, 157, 210)',
                         borderWidth: 1
                     }, {
                         label: 'Cash-Settled RSUs',
-                        data: [5, 4, 5, 5, 1], // Scores out of 5
-                        backgroundColor: 'rgba(107, 114, 128, 0.7)', // slate-500
-                        borderColor: 'rgba(107, 114, 128, 1)',
+                        data: [5, 4, 5, 5, 1],
+                        backgroundColor: 'rgba(146, 140, 140, 0.7)',
+                        borderColor: 'rgb(146, 140, 140)',
                         borderWidth: 1
                     }, {
                         label: 'Dividend Equivalent Units',
-                        data: [4, 4, 4, 5, 5], // Scores out of 5
-                        backgroundColor: 'rgba(234, 179, 8, 0.7)', // amber-500
-                        borderColor: 'rgba(234, 179, 8, 1)',
+                        data: [4, 4, 4, 5, 5],
+                        backgroundColor: 'rgba(243, 120, 33, 0.7)',
+                        borderColor: 'rgb(243, 120, 33)',
                         borderWidth: 1
                     }]
                 },
@@ -642,7 +629,7 @@
                                     size: 14,
                                     weight: 'bold'
                                 },
-                                color: '#475569' /* slate-600 */
+                                color: 'var(--color-pms-black)'
                             },
                             ticks: {
                                 callback: function(value) {
@@ -676,7 +663,7 @@
                             display: true,
                             text: 'Model Attributes Comparison',
                             font: { size: 18, weight: 'bold' },
-                            color: '#1e293b' /* slate-800 */
+                            color: 'var(--color-pms-black)'
                         },
                         tooltip: {
                             callbacks: {
