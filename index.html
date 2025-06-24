@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: CriticalOps Brand Palette (Bright Blue: RGB 0, 157, 210; Cool Gray: RGB 146, 140, 140; PMS Black: RGB 0, 0, 0; White: RGB 255, 255, 255; Bright Orange: RGB 243, 120, 33) -->
-    <!-- Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, moves into an interactive comparison of the three equity options (the core of the app), visualizes their attributes with a chart, summarizes key advantages, and concludes with a robust horizontal implementation roadmap. This flow guides the user from the "why" to the "what" and finally the "how," making complex financial concepts digestible and decision-oriented. A sticky navigation bar allows for easy movement between these logical sections, enhancing user understanding and ease of navigation. -->
+    <!-- Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, moves into an interactive comparison of the three equity options (core of the app), visualizes their attributes with a chart, summarizes key advantages, and concludes with a robust horizontal implementation roadmap. This flow guides the user from the "why" to the "what" and finally the "how," making complex financial concepts digestible and decision-oriented. A sticky navigation bar allows for easy movement between these logical sections, enhancing user understanding and ease of navigation. -->
     <!-- Visualization & Content Choices: To compare complex financial options, a tabbed interface allows for detailed exploration without information overload. A horizontal bar chart from Chart.js compares the options on qualitative factors (e.g., retention, simplicity), translating abstract concepts into visual formats. The critical interactive element is the "Payout Estimator" for each option, using sliders and inputs to make abstract financial mechanics tangible and demonstrate direct financial implications of company growth and dividend payouts. Key benefits and the implementation roadmap are presented using clean HTML/CSS layouts, with the roadmap specifically designed as a horizontal timeline with benchmarks to visually represent the project phases. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -175,19 +175,19 @@
         <!-- Option Comparison Section -->
         <section id="comparison" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Solution Comparison</h2>
-            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the three proposed models for non-dilutive equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
+            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the three proposed models for equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
 
             <!-- Tabs -->
             <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
                 <button id="tab-sars" class="flex-shrink-0 px-6 py-3 font-semibold border-b-2" style="color: var(--color-primary-blue); border-color: var(--color-primary-blue);">Phantom Stock / SARs</button>
                 <button id="tab-rsus" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Cash-Settled RSUs</button>
-                <button id="tab-deus" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Dividend Equivalent Units</button>
+                <button id="tab-pvs-de" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Performance-Vested Shares (PVS) with DERs</button>
             </div>
 
             <!-- Tab Content Containers -->
             <div id="content-sars" class="space-y-8"></div>
             <div id="content-rsus" class="hidden space-y-8"></div>
-            <div id="content-deus" class="hidden space-y-8"></div>
+            <div id="content-pvs-de" class="hidden space-y-8"></div>
             
             <!-- Qualitative Comparison Chart -->
             <div class="mt-20">
@@ -208,7 +208,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Zero Dilution</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with these synthetic options.</p>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with synthetic options.</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Strong Alignment</h3>
@@ -418,38 +418,41 @@
                 </div>
             `;
 
-            const deusContentHTML = `
+            const pvsdeContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Dividend Equivalent Units (DEUs)</h3>
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Performance-Vested Shares (PVS) with Integrated Dividend Equivalents</h3>
                         <div class="space-y-4">
                             <div>
                                 <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A form of synthetic equity providing cash payments equivalent to dividends on actual shares, without real share ownership.</p>
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A grant of actual company shares that vest based on performance and time, combined with the right to receive cash payments equivalent to dividends.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg">How It Works</h4>
                                 <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
-                                    <li><b>Grant:</b> Awarded DEU units, standalone or with other synthetic equity.</li>
-                                    <li><b>Calculation:</b> "Dividend equivalent" per unit calculated periodically (e.g., quarterly) based on a percentage of company value or profit.</li>
-                                    <li><b>Payout:</b> Cash equivalent is paid out at specified frequency for all units.</li>
+                                    <li><b>Grant:</b> Allocated a target number of actual shares.</li>
+                                    <li><b>Vesting:</b> Shares vest over 1-3 years, contingent on performance metrics and continued employment.</li>
+                                    <li><b>Dividend Equivalents (DERs):</b> Receive cash payments equal to dividends declared on unvested/vested shares, paid semi-annually/annually.</li>
+                                    <li><b>Payout:</b> Upon vesting, leaders own actual shares. DERs provide ongoing cash.</li>
                                 </ol>
                             </div>
                             <div class="grid grid-cols-2 gap-4 pt-4">
                                 <div>
                                     <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
                                     <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
-                                        <li>Regular cash flow</li>
-                                        <li>Continuous engagement</li>
-                                        <li>Enhanced attractiveness</li>
-                                        <li>No equity dilution</li>
+                                        <li>True equity ownership & strong alignment</li>
+                                        <li>Performance-driven vesting</li>
+                                        <li>Regular income from dividends, reducing personal risk</li>
+                                        <li>Strong retention: ownership + liquidity</li>
+                                        <li>Altruistic reward from founders</li>
                                     </ul>
                                 </div>
                                 <div>
                                     <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
                                     <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
-                                        <li>Requires robust profit/value calculation</li>
-                                        <li>Consistent cash flow for payouts</li>
+                                        <li>Involves equity dilution upon vesting</li>
+                                        <li>Requires consistent cash flow for dividends</li>
+                                        <li>Complex tax implications for recipients</li>
                                     </ul>
                                 </div>
                             </div>
@@ -459,34 +462,34 @@
                         <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
                         <div class="space-y-4">
                             <div>
-                                <label for="deus-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over 1-3 years): <span id="deus-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
-                                <input type="range" id="deus-growth" min="0" max="500" value="100" step="10">
+                                <label for="pvs-de-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over 1-3 years): <span id="pvs-de-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
+                                <input type="range" id="pvs-de-growth" min="0" max="500" value="100" step="10">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label for="deus-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">DEU Units Granted</label>
-                                    <input type="number" id="deus-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                                    <label for="pvs-de-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Shares Granted</label>
+                                    <input type="number" id="pvs-de-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                                 <div>
-                                    <label for="deus-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Unit ($)</label>
-                                    <input type="number" id="deus-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                                    <label for="pvs-de-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Share ($)</label>
+                                    <input type="number" id="pvs-de-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label for="deus-dividend-rate" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Payout Rate (% of current unit value): <span id="deus-dividend-rate-value" class="font-bold" style="color: var(--color-primary-blue);">1%</span></label>
-                                <input type="range" id="deus-dividend-rate" min="0" max="10" value="1" step="0.1">
+                                <label for="pvs-de-dividend-rate" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Dividend Rate (% of current share value): <span id="pvs-de-dividend-rate-value" class="font-bold" style="color: var(--color-primary-blue);">1%</span></label>
+                                <input type="range" id="pvs-de-dividend-rate" min="0" max="10" value="1" step="0.1">
                             </div>
                             <div class="mb-4">
-                                <label for="deus-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
-                                <select id="deus-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                                <label for="pvs-de-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Dividend Payout Frequency</label>
+                                <select id="pvs-de-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                     <option value="4">Quarterly</option>
                                     <option value="2">Semi-annually</option>
                                     <option value="1">Annually</option>
                                 </select>
                             </div>
-                            <div class="p-4 rounded-md text-center" style="background-color: var(--color-white);">
-                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cumulative Payout (over ${ESTIMATION_PERIOD_YEARS} years)</p>
-                                <p id="deus-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000</p>
+                            <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Total Value (Shares + Cumulative Dividends over ${ESTIMATION_PERIOD_YEARS} years)</p>
+                                <p id="pvs-de-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000</p>
                             </div>
                         </div>
                     </div>
@@ -495,23 +498,23 @@
             
             document.getElementById('content-sars').innerHTML = sarsContentHTML;
             document.getElementById('content-rsus').innerHTML = rsusContentHTML;
-            document.getElementById('content-deus').innerHTML = deusContentHTML;
+            document.getElementById('content-pvs-de').innerHTML = pvsdeContentHTML;
 
             const tabSars = document.getElementById('tab-sars');
             const tabRsus = document.getElementById('tab-rsus');
-            const tabDeus = document.getElementById('tab-deus');
+            const tabPvsDe = document.getElementById('tab-pvs-de');
             const contentSars = document.getElementById('content-sars');
             const contentRsus = document.getElementById('content-rsus');
-            const contentDeus = document.getElementById('content-deus');
+            const contentPvsDe = document.getElementById('content-pvs-de');
 
             function activateTab(activeTab, activeContent) {
-                [tabSars, tabRsus, tabDeus].forEach(tab => {
+                [tabSars, tabRsus, tabPvsDe].forEach(tab => {
                     tab.classList.remove('text-blue-600', 'border-blue-600');
                     tab.classList.add('text-gray-500');
                     tab.style.color = 'var(--color-cool-gray)';
                     tab.style.borderColor = 'transparent';
                 });
-                [contentSars, contentRsus, contentDeus].forEach(content => content.classList.add('hidden'));
+                [contentSars, contentRsus, contentPvsDe].forEach(content => content.classList.add('hidden'));
 
                 activeTab.classList.add('text-blue-600', 'border-blue-600');
                 activeTab.style.color = 'var(--color-primary-blue)';
@@ -521,20 +524,20 @@
 
             tabSars.addEventListener('click', () => activateTab(tabSars, contentSars));
             tabRsus.addEventListener('click', () => activateTab(tabRsus, contentRsus));
-            tabDeus.addEventListener('click', () => activateTab(tabDeus, contentDeus));
+            tabPvsDe.addEventListener('click', () => activateTab(tabPvsDe, contentPvsDe));
 
             activateTab(tabSars, contentSars);
 
             function setupCalculator(type) {
                 const growthSlider = document.getElementById(`${type}-growth`);
                 const growthValue = document.getElementById(`${type}-growth-value`);
-                const unitsInput = document.getElementById(type === 'sars' ? 'sars-shares' : (type === 'rsus' ? 'rsus-units' : 'deus-units'));
+                const unitsInput = document.getElementById(`${type}-units`);
                 const initialValueInput = document.getElementById(`${type}-initial-value`);
                 const payoutDisplay = document.getElementById(`${type}-payout`);
 
-                const dividendRateSlider = document.getElementById('deus-dividend-rate');
-                const dividendRateValue = document.getElementById('deus-dividend-rate-value');
-                const frequencySelect = document.getElementById('deus-frequency');
+                const dividendRateSlider = document.getElementById(`${type}-dividend-rate`);
+                const dividendRateValue = document.getElementById(`${type}-dividend-rate-value`);
+                const frequencySelect = document.getElementById(`${type}-frequency`);
 
                 function calculatePayout() {
                     const growth = parseFloat(growthSlider ? growthSlider.value : 0);
@@ -550,24 +553,25 @@
                     } else if (type === 'rsus') {
                         const finalValuePerShare = initialValue * (1 + growth / 100);
                         payout = finalValuePerShare * units;
-                    } else if (type === 'deus') {
+                    } else if (type === 'pvs-de') {
                         const annualRate = parseFloat(dividendRateSlider.value) / 100;
                         const frequency = parseInt(frequencySelect.value);
                         
-                        let cumulativePayout = 0;
+                        let cumulativeDividendPayout = 0;
                         let currentValuePerUnit = initialValue;
 
                         dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
 
                         for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS));
+                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS)); // Simplified annual average growth
 
                             for (let period = 0; period < frequency; period++) {
                                 const periodDividendPerUnit = currentValuePerUnit * (annualRate / frequency);
-                                cumulativePayout += (periodDividendPerUnit * units);
+                                cumulativeDividendPayout += (periodDividendPerUnit * units);
                             }
                         }
-                        payout = cumulativePayout;
+                        const finalShareValueTotal = (initialValue * (1 + growth / 100)) * units;
+                        payout = finalShareValueTotal + cumulativeDividendPayout;
                     }
 
                     payoutDisplay.textContent = `$${payout.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
@@ -577,7 +581,7 @@
                 unitsInput.addEventListener('input', calculatePayout);
                 initialValueInput.addEventListener('input', calculatePayout);
 
-                if (type === 'deus') {
+                if (type === 'pvs-de') {
                     dividendRateSlider.addEventListener('input', calculatePayout);
                     frequencySelect.addEventListener('change', calculatePayout);
                 }
@@ -587,28 +591,29 @@
 
             setupCalculator('sars');
             setupCalculator('rsus');
-            setupCalculator('deus');
+            setupCalculator('pvs-de');
+
 
             const ctx = document.getElementById('comparisonChart').getContext('2d');
             const comparisonChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Retention Power', 'Alignment with Growth', 'Simplicity (for Recipient)', 'Volatility Risk Mitigation', 'Regular Liquidity'],
+                    labels: ['Retention Power', 'Alignment with Growth', 'Simplicity (for Recipient)', 'Volatility Risk Mitigation', 'Regular Liquidity', 'True Ownership'],
                     datasets: [{
                         label: 'Phantom Stock / SARs',
-                        data: [4, 5, 4, 3, 1],
+                        data: [4, 5, 4, 3, 1, 1], // Scores out of 5
                         backgroundColor: 'rgba(0, 157, 210, 0.7)',
                         borderColor: 'rgb(0, 157, 210)',
                         borderWidth: 1
                     }, {
                         label: 'Cash-Settled RSUs',
-                        data: [5, 4, 5, 5, 1],
+                        data: [5, 4, 5, 5, 1, 1], // Scores out of 5
                         backgroundColor: 'rgba(146, 140, 140, 0.7)',
                         borderColor: 'rgb(146, 140, 140)',
                         borderWidth: 1
                     }, {
-                        label: 'Dividend Equivalent Units',
-                        data: [4, 4, 4, 5, 5],
+                        label: 'Performance-Vested Shares (PVS) with DERs',
+                        data: [5, 5, 3, 4, 5, 5], // Scores out of 5
                         backgroundColor: 'rgba(243, 120, 33, 0.7)',
                         borderColor: 'rgb(243, 120, 33)',
                         borderWidth: 1
