@@ -180,13 +180,13 @@
             <!-- Tabs -->
             <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
                 <button id="tab-sars" class="flex-shrink-0 px-6 py-3 font-semibold border-b-2" style="color: var(--color-primary-blue); border-color: var(--color-primary-blue);">Phantom Stock / SARs</button>
-                <button id="tab-rsus" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Cash-Settled RSUs</button>
+                <button id="tab-rsus-de" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Cash-Settled RSUs with DERs</button>
                 <button id="tab-pvs-de" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Performance-Vested Shares (PVS) with DERs</button>
             </div>
 
             <!-- Tab Content Containers -->
             <div id="content-sars" class="space-y-8"></div>
-            <div id="content-rsus" class="hidden space-y-8"></div>
+            <div id="content-rsus-de" class="hidden space-y-8"></div>
             <div id="content-pvs-de" class="hidden space-y-8"></div>
             
             <!-- Qualitative Comparison Chart -->
@@ -208,7 +208,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Zero Dilution</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with synthetic options.</p>
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with these synthetic options.</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Strong Alignment</h3>
@@ -356,21 +356,22 @@
                 </div>
             `;
 
-            const rsusContentHTML = `
+            const rsusDeContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Cash-Settled Restricted Stock Units (RSUs)</h3>
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Cash-Settled Restricted Stock Units (RSUs) with Dividend Equivalent Rights (DERs)</h3>
                         <div class="space-y-4">
                             <div>
                                 <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A promise to pay a cash equivalent of a specific number of company shares upon vesting. The value is settled entirely in cash.</p>
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A promise to pay a cash equivalent of a specific number of company shares upon vesting, combined with periodic cash payments mirroring dividends.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg">How It Works</h4>
                                 <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
-                                    <li><b>Grant:</b> Awarded "cash-settled RSU units".</li>
-                                    <li><b>Vesting:</b> Vests over 1-3 years based on continued employment.</li>
-                                    <li><b>Payout:</b> Receives cash equal to the full market value of the shares at the vesting date.</li>
+                                    <li><b>Grant:</b> Awarded "cash-settled RSU units" and corresponding DERs.</li>
+                                    <li><b>Vesting:</b> RSU units vest over 1-3 years based on continued employment.</li>
+                                    <li><b>Dividend Equivalents (DERs):</b> Receive cash payments equal to dividends declared on unvested RSU units, paid semi-annually/annually.</li>
+                                    <li><b>Payout:</b> Receives cash equal to the full market value of vested RSUs, plus cumulative DERs.</li>
                                 </ol>
                             </div>
                              <div class="grid grid-cols-2 gap-4 pt-4">
@@ -380,6 +381,7 @@
                                         <li>Strong retention tool</li>
                                         <li>Tied to total company value</li>
                                         <li>Provides cash liquidity</li>
+                                        <li>Regular cash flow from DERs</li>
                                         <li>Less volatility risk for recipient</li>
                                     </ul>
                                 </div>
@@ -387,6 +389,8 @@
                                     <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
                                     <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Requires valuation at vesting</li>
+                                        <li>Consistent cash flow for DERs</li>
+                                        <li>No true equity ownership</li>
                                     </ul>
                                 </div>
                             </div>
@@ -396,22 +400,34 @@
                         <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
                         <div class="space-y-4">
                            <div>
-                                <label for="rsus-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over vesting period, 1-3 years): <span id="rsus-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
-                                <input type="range" id="rsus-growth" min="0" max="500" value="100" step="10">
+                                <label for="rsus-de-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over 1-3 years): <span id="rsus-de-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
+                                <input type="range" id="rsus-de-growth" min="0" max="500" value="100" step="10">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label for="rsus-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">RSU Units Granted</label>
-                                    <input type="number" id="rsus-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                                    <label for="rsus-de-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Units Granted</label>
+                                    <input type="number" id="rsus-de-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                                 <div>
-                                    <label for="rsus-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Unit ($)</label>
-                                    <input type="number" id="rsus-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                                    <label for="rsus-de-initial-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Initial Value Per Unit ($)</label>
+                                    <input type="number" id="rsus-de-initial-value" value="${INITIAL_COMPANY_VALUE}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                                 </div>
                             </div>
-                            <div class="p-4 rounded-md text-center" style="background-color: var(--color-white);">
-                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cash Payout</p>
-                                <p id="rsus-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$2,000,000</p>
+                            <div class="mb-4">
+                                <label for="rsus-de-dividend-rate" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Payout Rate (% of current unit value): <span id="rsus-de-dividend-rate-value" class="font-bold" style="color: var(--color-primary-blue);">1%</span></label>
+                                <input type="range" id="rsus-de-dividend-rate" min="0" max="10" value="1" step="0.1">
+                            </div>
+                            <div class="mb-4">
+                                <label for="rsus-de-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
+                                <select id="rsus-de-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                                    <option value="4">Quarterly</option>
+                                    <option value="2">Semi-annually</option>
+                                    <option value="1">Annually</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Total Value (RSU + Cumulative DERs over ${ESTIMATION_PERIOD_YEARS} years)</p>
+                                <p id="rsus-de-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$2,000,000</p>
                             </div>
                         </div>
                     </div>
@@ -497,24 +513,24 @@
             `;
             
             document.getElementById('content-sars').innerHTML = sarsContentHTML;
-            document.getElementById('content-rsus').innerHTML = rsusContentHTML;
+            document.getElementById('content-rsus-de').innerHTML = rsusDeContentHTML;
             document.getElementById('content-pvs-de').innerHTML = pvsdeContentHTML;
 
             const tabSars = document.getElementById('tab-sars');
-            const tabRsus = document.getElementById('tab-rsus');
+            const tabRsusDe = document.getElementById('tab-rsus-de');
             const tabPvsDe = document.getElementById('tab-pvs-de');
             const contentSars = document.getElementById('content-sars');
-            const contentRsus = document.getElementById('content-rsus');
+            const contentRsusDe = document.getElementById('content-rsus-de');
             const contentPvsDe = document.getElementById('content-pvs-de');
 
             function activateTab(activeTab, activeContent) {
-                [tabSars, tabRsus, tabPvsDe].forEach(tab => {
+                [tabSars, tabRsusDe, tabPvsDe].forEach(tab => {
                     tab.classList.remove('text-blue-600', 'border-blue-600');
                     tab.classList.add('text-gray-500');
                     tab.style.color = 'var(--color-cool-gray)';
                     tab.style.borderColor = 'transparent';
                 });
-                [contentSars, contentRsus, contentPvsDe].forEach(content => content.classList.add('hidden'));
+                [contentSars, contentRsusDe, contentPvsDe].forEach(content => content.classList.add('hidden'));
 
                 activeTab.classList.add('text-blue-600', 'border-blue-600');
                 activeTab.style.color = 'var(--color-primary-blue)';
@@ -523,7 +539,7 @@
             }
 
             tabSars.addEventListener('click', () => activateTab(tabSars, contentSars));
-            tabRsus.addEventListener('click', () => activateTab(tabRsus, contentRsus));
+            tabRsusDe.addEventListener('click', () => activateTab(tabRsusDe, contentRsusDe));
             tabPvsDe.addEventListener('click', () => activateTab(tabPvsDe, contentPvsDe));
 
             activateTab(tabSars, contentSars);
@@ -550,9 +566,25 @@
                     if (type === 'sars') {
                         const finalValuePerShare = initialValue * (1 + growth / 100);
                         payout = (finalValuePerShare - initialValue) * units;
-                    } else if (type === 'rsus') {
-                        const finalValuePerShare = initialValue * (1 + growth / 100);
-                        payout = finalValuePerShare * units;
+                    } else if (type === 'rsus-de') {
+                        const annualRate = parseFloat(dividendRateSlider.value) / 100;
+                        const frequency = parseInt(frequencySelect.value);
+                        
+                        let cumulativeDividendPayout = 0;
+                        let currentValuePerUnit = initialValue;
+
+                        dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
+
+                        for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
+                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS));
+
+                            for (let period = 0; period < frequency; period++) {
+                                const periodDividendPerUnit = currentValuePerUnit * (annualRate / frequency);
+                                cumulativeDividendPayout += (periodDividendPerUnit * units);
+                            }
+                        }
+                        const finalShareValueTotal = (initialValue * (1 + growth / 100)) * units;
+                        payout = finalShareValueTotal + cumulativeDividendPayout;
                     } else if (type === 'pvs-de') {
                         const annualRate = parseFloat(dividendRateSlider.value) / 100;
                         const frequency = parseInt(frequencySelect.value);
@@ -563,7 +595,7 @@
                         dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
 
                         for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS)); // Simplified annual average growth
+                            currentValuePerUnit *= (1 + growth / (100 * ESTIMATION_PERIOD_YEARS));
 
                             for (let period = 0; period < frequency; period++) {
                                 const periodDividendPerUnit = currentValuePerUnit * (annualRate / frequency);
@@ -581,7 +613,7 @@
                 unitsInput.addEventListener('input', calculatePayout);
                 initialValueInput.addEventListener('input', calculatePayout);
 
-                if (type === 'pvs-de') {
+                if (type === 'rsus-de' || type === 'pvs-de') {
                     dividendRateSlider.addEventListener('input', calculatePayout);
                     frequencySelect.addEventListener('change', calculatePayout);
                 }
@@ -590,7 +622,7 @@
             }
 
             setupCalculator('sars');
-            setupCalculator('rsus');
+            setupCalculator('rsus-de');
             setupCalculator('pvs-de');
 
 
@@ -601,19 +633,19 @@
                     labels: ['Retention Power', 'Alignment with Growth', 'Simplicity (for Recipient)', 'Volatility Risk Mitigation', 'Regular Liquidity', 'True Ownership'],
                     datasets: [{
                         label: 'Phantom Stock / SARs',
-                        data: [4, 5, 4, 3, 1, 1], // Scores out of 5
+                        data: [4, 5, 4, 3, 1, 1],
                         backgroundColor: 'rgba(0, 157, 210, 0.7)',
                         borderColor: 'rgb(0, 157, 210)',
                         borderWidth: 1
                     }, {
-                        label: 'Cash-Settled RSUs',
-                        data: [5, 4, 5, 5, 1, 1], // Scores out of 5
+                        label: 'Cash-Settled RSUs with DERs',
+                        data: [5, 4, 4, 5, 5, 1],
                         backgroundColor: 'rgba(146, 140, 140, 0.7)',
                         borderColor: 'rgb(146, 140, 140)',
                         borderWidth: 1
                     }, {
                         label: 'Performance-Vested Shares (PVS) with DERs',
-                        data: [5, 5, 3, 4, 5, 5], // Scores out of 5
+                        data: [5, 5, 3, 4, 5, 5],
                         backgroundColor: 'rgba(243, 120, 33, 0.7)',
                         borderColor: 'rgb(243, 120, 33)',
                         borderWidth: 1
