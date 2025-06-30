@@ -1,783 +1,1579 @@
 <!DOCTYPE html>
+
 <html lang="en" class="scroll-smooth">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Report: Strategic Equity Sharing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: CriticalOps Brand Palette (Bright Blue: RGB 0, 157, 210; Cool Gray: RGB 146, 140, 140; PMS Black: RGB 0, 0, 0; White: RGB 255, 255, 255; Bright Orange: RGB 243, 120, 33) -->
-    <!-- Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, moves into an interactive comparison of the two refined equity options (the core of the app), visualizes their attributes with a chart, summarizes key advantages, and concludes with a robust horizontal implementation roadmap. This flow guides the user from the "why" to the "what" and finally the "how," making complex financial concepts digestible and decision-oriented. A sticky navigation bar allows for easy movement between these logical sections, enhancing user understanding and ease of navigation. -->
-    <!-- Visualization & Content Choices: To compare complex financial options, a tabbed interface allows for detailed exploration without information overload. A horizontal bar chart from Chart.js compares the options on qualitative factors (e.g., retention, simplicity), translating abstract concepts into visual formats. The critical interactive element is the "Payout Estimator" for each option, using sliders and inputs to make abstract financial mechanics tangible and demonstrate direct financial implications of company growth and dividend payouts. Key benefits and the implementation roadmap are presented using clean HTML/CSS layouts, with the roadmap specifically designed as a horizontal timeline with benchmarks to visually represent the project phases. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <style>
-        :root {
-            --color-primary-blue: rgb(0, 157, 210);
-            --color-cool-gray: rgb(146, 140, 140);
-            --color-pms-black: rgb(0, 0, 0);
-            --color-white: rgb(255, 255, 255);
-            --color-bright-orange: rgb(243, 120, 33);
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-white);
-            color: var(--color-pms-black);
-        }
-        .section {
-            scroll-margin-top: 6rem;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
-        }
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: var(--color-cool-gray);
-            outline: none;
-            opacity: 0.7;
-            transition: opacity .2s;
-        }
-        input[type="range"]:hover {
-            opacity: 1;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--color-primary-blue);
-            cursor: pointer;
-        }
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--color-primary-blue);
-            cursor: pointer;
-        }
-        .timeline-container {
-            overflow-x: auto;
-            padding-bottom: 1rem;
-        }
-        .timeline {
-            display: flex;
-            position: relative;
-            height: 200px;
-            padding: 0 0;
-            min-width: 900px;
-        }
-        .timeline-line {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: var(--color-cool-gray);
-            transform: translateY(-50%);
-            z-index: 5;
-        }
-        .timeline-item {
-            flex: 1;
-            position: relative;
-            text-align: center;
-            z-index: 10;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .timeline-dot {
-            width: 16px;
-            height: 16px;
-            background-color: var(--color-primary-blue);
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-        }
-        .timeline-content {
-            font-size: 0.9rem;
-            color: var(--color-pms-black);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 130px;
-            line-height: 1.3;
-            text-align: center;
-        }
-        .timeline-item.top .timeline-content {
-            bottom: calc(50% + 20px);
-        }
-        .timeline-item.bottom .timeline-content {
-            top: calc(50% + 20px);
-        }
-        .timeline-title {
-            font-weight: 600;
-            color: var(--color-pms-black);
-            margin-bottom: 4px;
-        }
-    </style>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interactive Report: Strategic Equity Sharing</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: CriticalOps Brand Palette (Bright Blue: RGB 0, 157, 210; Cool Gray: RGB 146, 140, 140; PMS Black: RGB 0, 0, 0; White: RGB 255, 255, 255; Bright Orange: RGB 243, 120, 33) -->
+
+    <!-- Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, moves into an interactive comparison of the two refined equity options (the core of the app), visualizes their attributes with a chart, summarizes key advantages, and concludes with a robust horizontal implementation roadmap. This flow guides the user from the "why" to the "what" and finally the "how," making complex financial concepts digestible and decision-oriented. A sticky navigation bar allows for easy movement between these logical sections, enhancing user understanding and ease of navigation. -->
+
+    <!-- Visualization & Content Choices: To compare complex financial options, a tabbed interface allows for detailed exploration without information overload. A horizontal bar chart from Chart.js compares the options on qualitative factors (e.g., retention, simplicity), translating abstract concepts into visual formats. The critical interactive element is the "Payout Estimator" for each option, using sliders and inputs to make abstract financial mechanics tangible and demonstrate direct financial implications of company growth and dividend payouts. Key benefits and the implementation roadmap are presented using clean HTML/CSS layouts, with the roadmap specifically designed as a horizontal timeline with benchmarks to visually represent the project phases. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+
+        :root {
+
+            --color-primary-blue: rgb(0, 157, 210);
+
+            --color-cool-gray: rgb(146, 140, 140);
+
+            --color-pms-black: rgb(0, 0, 0);
+
+            --color-white: rgb(255, 255, 255);
+
+            --color-bright-orange: rgb(243, 120, 33);
+
+        }
+
+        body {
+
+            font-family: 'Inter', sans-serif;
+
+            background-color: var(--color-white);
+
+            color: var(--color-pms-black);
+
+        }
+
+        .section {
+
+            scroll-margin-top: 6rem;
+
+        }
+
+        .chart-container {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 900px;
+
+            margin-left: auto;
+
+            margin-right: auto;
+
+            height: 400px;
+
+            max-height: 50vh;
+
+        }
+
+        input[type="range"] {
+
+            -webkit-appearance: none;
+
+            appearance: none;
+
+            width: 100%;
+
+            height: 8px;
+
+            border-radius: 5px;
+
+            background: var(--color-cool-gray);
+
+            outline: none;
+
+            opacity: 0.7;
+
+            transition: opacity .2s;
+
+        }
+
+        input[type="range"]:hover {
+
+            opacity: 1;
+
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+
+            -webkit-appearance: none;
+
+            appearance: none;
+
+            width: 20px;
+
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: var(--color-primary-blue);
+
+            cursor: pointer;
+
+        }
+
+        input[type="range"]::-moz-range-thumb {
+
+            width: 20px;
+
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: var(--color-primary-blue);
+
+            cursor: pointer;
+
+        }
+
+        .timeline-container {
+
+            overflow-x: auto;
+
+            padding-bottom: 1rem;
+
+        }
+
+        .timeline {
+
+            display: flex;
+
+            position: relative;
+
+            height: 200px;
+
+            padding: 0 0;
+
+            min-width: 900px;
+
+        }
+
+        .timeline-line {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 0;
+
+            right: 0;
+
+            height: 2px;
+
+            background-color: var(--color-cool-gray);
+
+            transform: translateY(-50%);
+
+            z-index: 5;
+
+        }
+
+        .timeline-item {
+
+            flex: 1;
+
+            position: relative;
+
+            text-align: center;
+
+            z-index: 10;
+
+            height: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+        .timeline-dot {
+
+            width: 16px;
+
+            height: 16px;
+
+            background-color: var(--color-primary-blue);
+
+            border-radius: 50%;
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 10;
+
+        }
+
+        .timeline-content {
+
+            font-size: 0.9rem;
+
+            color: var(--color-pms-black);
+
+            position: absolute;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 130px;
+
+            line-height: 1.3;
+
+            text-align: center;
+
+        }
+
+        .timeline-item.top .timeline-content {
+
+            bottom: calc(50% + 20px);
+
+        }
+
+        .timeline-item.bottom .timeline-content {
+
+            top: calc(50% + 20px);
+
+        }
+
+        .timeline-title {
+
+            font-weight: 600;
+
+            color: var(--color-pms-black);
+
+            margin-bottom: 4px;
+
+        }
+
+    </style>
+
 </head>
+
 <body class="antialiased">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50" style="background-color: rgba(255, 255, 255, 0.8);">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex space-x-6 text-sm font-semibold">
-                <a href="#introduction" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Introduction</a>
-                <a href="#comparison" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Option Comparison</a>
-                <a href="#advantages" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Key Advantages</a>
-                <a href="#next-steps" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Roadmap</a>
-            </div>
-            <!-- Logo: Blue infinity symbol and black "CriticalOps" wordmark -->
-            <div class="flex items-center space-x-1">
-                <span class="text-3xl font-extrabold" style="color: var(--color-primary-blue);">∞</span>
-                <span class="text-2xl font-extrabold" style="color: var(--color-pms-black);">CriticalOps</span>
-            </div>
-        </nav>
-    </header>
 
-    <main class="container mx-auto px-6 py-12">
 
-        <!-- Introduction Section -->
-        <section id="introduction" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Skybox CriticalOps Executive Equity Sharing Program</h2>
-            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Skybox CritOps achieved rapid market entry, successfully launching our hyperscale data center operations platform within its first year. To sustain this aggressive growth trajectory and secure long-term leadership commitment, competitive incentives aligned with Skybox's exponential value creation will be essential.</p>
-            
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="font-bold text-2xl mb-2" style="color: var(--color-pms-black);">Opportunity: Aligning Incentives for Continued Value Creation</h3>
-                    <p style="color: var(--color-cool-gray);">Our objective is to motivate and retain our senior leadership and foundational talent by directly aligning their long-term interests with Skybox's continued success. This approach aims to create shared value for those who have built and will continue to build our company, all while thoughtfully managing founder equity control.</p>
-                </div>
-                <div class="p-8 rounded-lg shadow-md" style="background-color: var(--color-primary-blue); color: var(--color-white);">
-                    <h3 class="font-bold text-2xl mb-2">The Proposed Solution: Strategic "Synthetic Equity"</h3>
-                    <p>We propose implementing strategic 'synthetic equity' programs. These programs are designed to provide a financial upside directly linked to Skybox's performance, offering the benefits of equity participation without the complexities associated with actual share issuance.</p>
-                </div>
-            </div>
-        </section>
+    <!-- Header & Navigation -->
 
-        <!-- Option Comparison Section -->
-        <section id="comparison" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Solution Comparison</h2>
-            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the proposed models for equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50" style="background-color: rgba(255, 255, 255, 0.8);">
 
-            <!-- Tabs -->
-            <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
-                <button id="tab-phantom-stock" class="flex-shrink-0 px-6 py-3 font-semibold border-b-2" style="color: var(--color-primary-blue); border-color: var(--color-primary-blue);">Phantom Stock with Specialized Valuation & Dividends</button>
-                <button id="tab-pup" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Performance Unit Plan (PUP) with Operational Payouts</button>
-            </div>
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
 
-            <!-- Tab Content Containers -->
-            <div id="content-phantom-stock" class="space-y-8"></div>
-            <div id="content-pup" class="hidden space-y-8"></div>
-            
-            <!-- Qualitative Comparison Chart -->
-            <div class="mt-20">
-                 <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis: Valuation Method Comparison</h3>
-                 <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the three *valuation methods* for Phantom Stock, highlighting their relative strengths across key attributes.</p>
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="chart-container">
-                        <canvas id="comparisonChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <div class="flex space-x-6 text-sm font-semibold">
 
-        <!-- Key Advantages Section -->
-        <section id="advantages" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Key Advantages of These Models</h2>
-             <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">All proposed models offer powerful benefits designed to meet our core objectives of retaining talent, preserving founder equity, and driving continuous performance.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
-                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Zero Dilution</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with these synthetic options.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
-                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Strong Alignment</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Incentivizes leadership to drive long-term company value and specific performance goals.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
-                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Cash Liquidity</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Provides meaningful cash rewards, simplifying financial realization for recipients.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
-                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Powerful Retention</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Multi-year vesting schedules and performance periods encourage long-term commitment.</p>
-                </div>
-                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
-                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Regular Cash Flow</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Dividend equivalents offer consistent, periodic payouts, enhancing liquidity.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
-                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Flexibility</h3>
-                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Each model can be tailored to our specific growth phases and leadership structure.</p>
-                </div>
-            </div>
-        </section>
+                <a href="#introduction" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Introduction</a>
 
-        <!-- Next Steps Section - Horizontal Roadmap -->
-        <section id="next-steps" class="section mb-24">
-            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Implementation Roadmap</h2>
-            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">To move forward efficiently, we propose a structured roadmap with key milestones to finalize and implement the chosen equity sharing program.</p>
-            
-            <div class="timeline-container bg-white p-6 rounded-lg shadow-md">
-                <div class="timeline">
-                    <div class="timeline-line"></div>
-                    
-                    <div class="timeline-item top">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Q3 2025</div>
-                            Program Design & Legal Review
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item bottom">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Q4 2025</div>
-                            Board Approval & Documentation Finalization
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item top">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Q1 2026</div>
-                            Leadership Communication & Grant Issuance
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item bottom">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Q2 2026</div>
-                            First Vesting / Payout Calculation
-                        </div>
-                    </div>
+                <a href="#comparison" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Option Comparison</a>
 
-                    <div class="timeline-item top">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Ongoing</div>
-                            Periodic Review & Adjustments
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                <a href="#advantages" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Key Advantages</a>
 
-    </main>
+                <a href="#next-steps" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Roadmap</a>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+            </div>
 
-            const INITIAL_COMPANY_VALUE = 10; // Initial value per phantom share/unit for calculation base
-            const INITIAL_UNITS = 10000;      // Default units granted
-            const ESTIMATION_PERIOD_YEARS = 3; // Vesting/estimation period
+            <!-- Logo: Blue infinity symbol and black "CriticalOps" wordmark -->
 
-            // --- Phantom Stock Content HTML ---
-            const phantomStockContentHTML = `
-                <div class="grid lg:grid-cols-2 gap-8">
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Phantom Stock with Specialized Valuation & Dividends</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A contract granting a cash payment equal to the appreciation in value of "phantom" shares, plus periodic dividend equivalents. No actual shares are issued.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-lg">How It Works</h4>
-                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
-                                    <li><b>Grant:</b> Awarded "phantom shares" at a current base value.</li>
-                                    <li><b>Vesting:</b> Vests over 1-3 years, exact schedule by executive decision, to ensure retention.</li>
-                                    <li><b>Dividend Equivalents:</b> Receive cash payments equal to declared dividends (or calculated equivalents) on phantom shares, paid quarterly.</li>
-                                    <li><b>Appreciation Payout:</b> Occurs ONLY if the company sells. Upon a liquidity event, the recipient receives cash equal to the share value increase (calculated using chosen method below).</li>
-                                </ol>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4 pt-4">
-                                <div>
-                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
-                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
-                                        <li>Rewards value creation & ongoing performance in intangible-rich businesses.</li>
-                                        <li>No equity dilution.</li>
-                                        <li>Provides cash liquidity (only periodic dividends during employment).</li>
-                                        <li>Simple for the recipient.</li>
-                                        <li>Offers regular cash flow through dividends.</li>
-                                        <li>Tailored valuation methods reflect true drivers of value.</li>
-                                        <li>Avoids costly external valuations, using clear formulas.</li>
-                                        <li>Provides transparency and predictability for participants.</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
-                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
-                                        <li>Consistent cash flow for dividend equivalents needs to be managed.</li>
-                                        <li>Chosen valuation formula needs clear definition and understanding.</li>
-                                        <li>Careful selection of base metrics is essential.</li>
-                                        <li>Periodic review of formula relevance may be advisable.</li>
-                                        <li>Appreciation payout is contingent on a future liquidity event (e.g., company sale).</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
-                        <div class="space-y-4">
-                            <div class="mb-4">
-                                <label for="phantom-stock-valuation-method" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Select Valuation Method:</label>
-                                <select id="phantom-stock-valuation-method" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                                    <option value="revenue">Adjusted Revenue Multiple Method</option>
-                                    <option value="ebitda">Adjusted EBITDA (or Gross Profit) Multiple Method</option>
-                                    <option value="client_value">Client/Contract Value Metric</option>
-                                </select>
-                            </div>
+            <div class="flex items-center space-x-1">
 
-                            <div id="valuation-inputs" class="space-y-4">
-                                <!-- Dynamic inputs will be injected here -->
-                            </div>
+                <span class="text-3xl font-extrabold" style="color: var(--color-primary-blue);"></span>
 
-                            <div class="mb-4">
-                                <label for="phantom-stock-dividend-rate" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Payout Rate (% of current unit value): <span id="phantom-stock-dividend-rate-value" class="font-bold" style="color: var(--color-primary-blue);">1%</span></label>
-                                <input type="range" id="phantom-stock-dividend-rate" min="0" max="10" value="1" step="0.1">
-                            </div>
-                            <div class="mb-4">
-                                <label for="phantom-stock-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
-                                <select id="phantom-stock-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                                    <option value="4">Quarterly</option>
-                                    <option value="2">Semi-annually</option>
-                                    <option value="1">Annually</option>
-                                </select>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
-                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cumulative Dividends over ${ESTIMATION_PERIOD_YEARS} years</p>
-                                <p id="phantom-stock-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000,000</p>
-                            </div>
-                             <div class="bg-slate-50 p-4 rounded-md text-center mt-4" style="background-color: var(--color-white);">
-                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Appreciation upon Company Sale</p>
-                                <p id="phantom-stock-appreciation-sale" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+                <span class="text-2xl font-extrabold" style="color: var(--color-pms-black);">CriticalOps</span>
 
-            const pupContentHTML = `
-                <div class="grid lg:grid-cols-2 gap-8">
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Performance Unit Plan (PUP) with Operational Payouts</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-semibold text-lg">What It Is</h4>
-                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A cash incentive program where "units" are earned based on specific operational or financial KPIs, with periodic cash payouts tied to achievement. The unit value is fixed and does not appreciate with overall company valuation.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-lg">How It Works</h4>
-                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
-                                    <li><b>Grant:</b> Awarded a target number of performance units (not tied to company shares).</li>
-                                    <li><b>KPIs:</b> Payouts are contingent on achievement of pre-defined operational/financial KPIs (e.g., uptime, efficiency, cost reduction).</li>
-                                    <li><b>Payouts:</b> Periodic (quarterly/semi-annually) cash payouts are made based on KPI achievement. Each unit has a fixed cash value.</li>
-                                    <li><b>No Link to Company Valuation:</b> Unit value does not appreciate with overall company valuation, reducing volatility risk for the company.</li>
-                                </ol>
-                            </div>
-                             <div class="grid grid-cols-2 gap-4 pt-4">
-                                <div>
-                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
-                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
-                                        <li>Directly rewards operational excellence.</li>
-                                        <li>Provides regular, predictable cash flow based on performance.</li>
-                                        <li>Simple to understand for specific goals.</li>
-                                        <li>Company is insulated from overall market volatility for payout value.</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
-                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
-                                        <li>No link to overall company capital appreciation (less "ownership-like" feeling).</li>
-                                        <li>Payout capped by unit value and KPI achievement.</li>
-                                        <li>May require complex, specific KPI tracking.</li>
-                                        <li>Less attractive if leaders primarily seek equity upside.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
-                        <div class="space-y-4">
-                           <div>
-                                <label for="pup-kpi-achievement" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Average KPI Achievement (over 1-3 years): <span id="pup-kpi-achievement-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
-                                <input type="range" id="pup-kpi-achievement" min="0" max="150" value="100" step="10">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label for="pup-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Performance Units Granted</label>
-                                    <input type="number" id="pup-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                                </div>
-                                <div>
-                                    <label for="pup-unit-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Fixed Value Per Unit ($)</label>
-                                    <input type="number" id="pup-unit-value" value="1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label for="pup-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
-                                <select id="pup-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                                    <option value="4">Quarterly</option>
-                                    <option value="2">Semi-annually</option>
-                                    <option value="1">Annually</option>
-                                </select>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
-                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cumulative Payout (over ${ESTIMATION_PERIOD_YEARS} years)</p>
-                                <p id="pup-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('content-phantom-stock').innerHTML = phantomStockContentHTML;
-            document.getElementById('content-pup').innerHTML = pupContentHTML;
+            </div>
 
-            const tabPhantomStock = document.getElementById('tab-phantom-stock');
-            const tabPup = document.getElementById('tab-pup');
-            const contentPhantomStock = document.getElementById('content-phantom-stock');
-            const contentPup = document.getElementById('content-pup');
+        </nav>
 
-            function activateTab(activeTab, activeContent) {
-                [tabPhantomStock, tabPup].forEach(tab => {
-                    tab.classList.remove('text-blue-600', 'border-blue-600');
-                    tab.classList.add('text-gray-500');
-                    tab.style.color = 'var(--color-cool-gray)';
-                    tab.style.borderColor = 'transparent';
-                });
-                [contentPhantomStock, contentPup].forEach(content => content.classList.add('hidden'));
+    </header>
 
-                activeTab.classList.add('text-blue-600', 'border-blue-600');
-                activeTab.style.color = 'var(--color-primary-blue)';
-                activeTab.style.borderColor = 'var(--color-primary-blue)';
-                activeContent.classList.remove('hidden');
-            }
 
-            tabPhantomStock.addEventListener('click', () => activateTab(tabPhantomStock, contentPhantomStock));
-            tabPup.addEventListener('click', () => activateTab(tabPup, contentPup));
 
-            activateTab(tabPhantomStock, contentPhantomStock); // Default to Phantom Stock tab
+    <main class="container mx-auto px-6 py-12">
 
-            // --- Dynamic Valuation Inputs for Phantom Stock ---
-            const valuationMethodSelect = document.getElementById('phantom-stock-valuation-method');
-            const valuationInputsDiv = document.getElementById('valuation-inputs');
 
-            function updateValuationInputs() {
-                const method = valuationMethodSelect.value;
-                let inputsHTML = '';
 
-                if (method === 'revenue') {
-                    inputsHTML = `
-                        <label for="phantom-stock-arr-tcv" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Recurring Revenue (ARR) / TCV ($M):</label>
-                        <input type="number" id="phantom-stock-arr-tcv" value="10" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                        <label for="phantom-stock-revenue-multiple" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Revenue Multiple (X):</label>
-                        <input type="number" id="phantom-stock-revenue-multiple" value="5" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                        <label for="phantom-stock-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
-                        <input type="number" id="phantom-stock-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                    `;
-                } else if (method === 'ebitda') {
-                    inputsHTML = `
-                        <label for="phantom-stock-ebitda-gp" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Adjusted EBITDA / Gross Profit ($M):</label>
-                        <input type="number" id="phantom-stock-ebitda-gp" value="2" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                        <label for="phantom-stock-ebitda-multiple" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">EBITDA/GP Multiple (X):</label>
-                        <input type="number" id="phantom-stock-ebitda-multiple" value="8" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                        <label for="phantom-stock-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
-                        <input type="number" id="phantom-stock-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                    `;
-                } else if (method === 'client_value') {
-                    inputsHTML = `
-                        <label for="phantom-stock-active-clients" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Number of Active Clients:</label>
-                        <input type="number" id="phantom-stock-active-clients" value="50" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                        <label for="phantom-stock-value-per-client" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Value Per Active Client ($):</label>
-                        <input type="number" id="phantom-stock-value-per-client" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                        <label for="phantom-stock-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
-                        <input type="number" id="phantom-stock-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                    `;
-                }
-                valuationInputsDiv.innerHTML = inputsHTML;
-                attachPhantomStockInputListeners(); // Re-attach listeners after content update
-                calculatePhantomStockPayout(); // Recalculate after input change
-            }
+        <!-- Introduction Section -->
 
-            // --- Payout Calculator Logic ---
-            function setupCalculator(type) {
-                // Determine the correct ID prefixes for the inputs
-                const growthSliderId = type === 'phantom-stock' ? `${type}-growth` : `${type}-kpi-achievement`;
-                const growthValueDisplayId = type === 'phantom-stock' ? `${type}-growth-value` : `${type}-kpi-achievement-value`;
-                const unitsInputId = type === 'phantom-stock' ? `${type}-shares` : `${type}-units`;
-                const initialValueInputId = type === 'phantom-stock' ? `${type}-initial-value` : `${type}-unit-value`;
-                const dividendRateSliderId = `${type}-dividend-rate`;
-                const dividendRateValueId = `${type}-dividend-rate-value`;
-                const frequencySelectId = `${type}-frequency`;
+        <section id="introduction" class="section mb-24">
 
-                // Get elements using the derived IDs
-                const growthSlider = document.getElementById(growthSliderId);
-                const growthValueDisplay = document.getElementById(growthValueDisplayId);
-                const unitsInput = document.getElementById(unitsInputId);
-                const initialValueInput = document.getElementById(initialValueInputId);
-                const payoutDisplay = document.getElementById(`${type}-payout`);
-                const appreciationSaleDisplay = document.getElementById('phantom-stock-appreciation-sale'); // Specific to Phantom Stock
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Skybox CriticalOps Executive Equity Sharing Program</h2>
 
-                const dividendRateSlider = document.getElementById(dividendRateSliderId);
-                const dividendRateValue = document.getElementById(dividendRateValueId);
-                const frequencySelect = document.getElementById(frequencySelectId);
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Our initial year at Skybox CriticalOps marked rapid market entry and the successful launch of our hyperscale data center operations platform. To sustain this aggressive growth trajectory, competitive incentives directly tied to Skybox's value creation options have been requested by the executive team.</p>
 
-                function calculatePayout() {
-                    let units = parseFloat(unitsInput ? unitsInput.value : 0) || 0;
-                    let payout = 0; // Represents cumulative dividends for phantom stock, and total for PUP
-                    let appreciationPayoutOnSale = 0; // Specific to phantom stock
-                    let cumulativeDividendPayout = 0;
+            
 
-                    const growth = parseFloat(growthSlider ? growthSlider.value : 0);
-                    const initialValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
+            <div class="grid md:grid-cols-2 gap-8 items-center">
 
-                    if (growthValueDisplay) {
-                         if (type === 'phantom-stock') {
-                            growthValueDisplay.textContent = `${growth}%`;
-                        } else if (type === 'pup') {
-                            growthValueDisplay.textContent = `${growth}%`;
-                        }
-                    }
+                <div class="bg-white p-8 rounded-lg shadow-md">
 
-                    if (type === 'phantom-stock') {
-                        const method = valuationMethodSelect.value;
-                        const totalSharesInput = document.getElementById('phantom-stock-total-shares');
-                        const totalShares = parseFloat(totalSharesInput ? totalSharesInput.value : 1) || 1;
-                        
-                        let currentCompanyValuation = 0;
+                    <h3 class="font-bold text-2xl mb-2" style="color: var(--color-pms-black);">Opportunity: Aligning Incentives for Continued Value Creation</h3>
 
-                        if (method === 'revenue') {
-                            const arrTcvInput = document.getElementById('phantom-stock-arr-tcv');
-                            const revenueMultipleInput = document.getElementById('phantom-stock-revenue-multiple');
-                            const arrTcv = parseFloat(arrTcvInput ? arrTcvInput.value : 0) || 0;
-                            const revenueMultiple = parseFloat(revenueMultipleInput ? revenueMultipleInput.value : 0) || 0;
-                            currentCompanyValuation = arrTcv * revenueMultiple * 1_000_000;
-                        } else if (method === 'ebitda') {
-                            const ebitdaGpInput = document.getElementById('phantom-stock-ebitda-gp');
-                            const ebitdaMultipleInput = document.getElementById('phantom-stock-ebitda-multiple');
-                            const ebitdaGp = parseFloat(ebitdaGpInput ? ebitdaGpInput.value : 0) || 0;
-                            const ebitdaMultiple = parseFloat(ebitdaMultipleInput ? ebitdaMultipleInput.value : 0) || 0;
-                            currentCompanyValuation = ebitdaGp * ebitdaMultiple * 1_000_000;
-                        } else if (method === 'client_value') {
-                            const activeClientsInput = document.getElementById('phantom-stock-active-clients');
-                            const valuePerClientInput = document.getElementById('phantom-stock-value-per-client');
-                            const activeClients = parseFloat(activeClientsInput ? activeClientsInput.value : 0) || 0;
-                            const valuePerClient = parseFloat(valuePerClientInput ? valuePerClientInput.value : 0) || 0;
-                            currentCompanyValuation = activeClients * valuePerClient;
-                        }
-                        
-                        const currentPhantomValuePerShare = (totalShares > 0) ? (currentCompanyValuation / totalShares) : initialValue;
-                        const initialPhantomValuePerShare = initialValue;
+                    <p style="color: var(--color-cool-gray);">The core objective here is to motivate and retain our senior leadership and foundational talent. We'll achieve this by directly aligning their long-term interests with Skybox's ongoing success, fostering shared value among those crucial to our past and future growth, and doing so while carefully maintaining founder equity control.</p>
 
-                        // Appreciation payout only happens if company sells
-                        appreciationPayoutOnSale = (currentPhantomValuePerShare - initialPhantomValuePerShare) * units;
+                </div>
 
-                        const annualRate = parseFloat(dividendRateSlider ? dividendRateSlider.value : 0) / 100;
-                        const frequency = parseInt(frequencySelect ? frequencySelect.value : 1); // Fixed: Use frequencySelect.value
-                        if (dividendRateValue) dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
+                <div class="p-8 rounded-lg shadow-md" style="background-color: var(--color-primary-blue); color: var(--color-white);">
 
-                        let currentValueForDividendCalculation = initialValue;
-                        const totalGrowthRate = (growth / 100);
-                        const effectiveAnnualGrowthRate = (1 + totalGrowthRate)**(1/ESTIMATION_PERIOD_YEARS) - 1;
+                    <h3 class="font-bold text-2xl mb-2">The Proposed Solution: Strategic "Synthetic Equity"</h3>
 
-                        for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                            const baseForDividend = initialValue * ((1 + effectiveAnnualGrowthRate) ** year);
-                            for (let period = 0; period < frequency; period++) {
-                                const periodDividendPerUnit = baseForDividend * (annualRate / frequency);
-                                cumulativeDividendPayout += (periodDividendPerUnit * units);
-                            }
-                        }
-                        payout = cumulativeDividendPayout;
+                    <p>We propose implementing strategic 'synthetic equity' programs. These programs are designed to provide a financial upside directly linked to Skybox's performance, offering the benefits of equity participation without the complexities associated with actual share issuance.</p>
 
-                        if (appreciationSaleDisplay) {
-                            appreciationSaleDisplay.textContent = `$${appreciationPayoutOnSale.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-                        }
+                </div>
 
-                    } else if (type === 'pup') {
-                        const kpiAchievementRate = parseFloat(growthSlider ? growthSlider.value : 0) / 100;
-                        const fixedUnitValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
-                        const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
-                        
-                        cumulativeDividendPayout = 0; // Initialize for PUP
-                        
-                        for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                            for (let period = 0; period < frequency; period++) {
-                                const periodPayout = fixedUnitValue * units * (kpiAchievementRate / frequency);
-                                cumulativePayout += periodPayout;
-                            }
-                        }
-                        payout = cumulativePayout;
-                    }
+            </div>
 
-                    if (payoutDisplay) payoutDisplay.textContent = `$${payout.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-                }
+        </section>
 
-                if (growthSlider) growthSlider.addEventListener('input', calculatePayout);
-                if (unitsInput) unitsInput.addEventListener('input', calculatePayout);
-                if (initialValueInput) initialValueInput.addEventListener('input', calculatePayout);
 
-                if (type === 'phantom-stock' || type === 'pup') {
-                    if (dividendRateSlider) dividendRateSlider.addEventListener('input', calculatePayout);
-                    if (frequencySelect) frequencySelect.addEventListener('change', calculatePayout);
-                }
-                
-                calculatePayout(); 
-            }
 
-            // Attaches listeners for Phantom Stock specific valuation inputs
-            function attachPhantomStockInputListeners() {
-                const method = valuationMethodSelect.value;
-                let inputsToAttach = [];
+        <!-- Option Comparison Section -->
 
-                if (method === 'revenue') {
-                    inputsToAttach = ['phantom-stock-arr-tcv', 'phantom-stock-revenue-multiple', 'phantom-stock-total-shares'];
-                } else if (method === 'ebitda') {
-                    inputsToAttach = ['phantom-stock-ebitda-gp', 'phantom-stock-ebitda-multiple', 'phantom-stock-total-shares'];
-                } else if (method === 'client_value') {
-                    inputsToAttach = ['phantom-stock-active-clients', 'phantom-stock-value-per-client', 'phantom-stock-total-shares'];
-                }
+        <section id="comparison" class="section mb-24">
 
-                inputsToAttach.forEach(id => {
-                    const inputElement = document.getElementById(id);
-                    if (inputElement) {
-                        inputElement.removeEventListener('input', calculatePhantomStockPayout);
-                        inputElement.addEventListener('input', calculatePhantomStockPayout);
-                    }
-                });
-            }
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Solution Comparison</h2>
 
-            function calculatePhantomStockPayout() {
-                const phantomInitialValueInput = document.getElementById('phantom-stock-initial-value');
-                const phantomUnitsInput = document.getElementById('phantom-stock-shares');
-                
-                if (phantomInitialValueInput && phantomUnitsInput) {
-                    setupCalculator('phantom-stock');
-                }
-            }
+            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the two proposed models for equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
 
-            document.getElementById('content-phantom-stock').innerHTML = phantomStockContentHTML;
-            document.getElementById('content-pup').innerHTML = pupContentHTML;
 
-            updateValuationInputs(); 
-            calculatePhantomStockPayout(); 
-            setupCalculator('pup');
 
-            tabPhantomStock.addEventListener('click', () => activateTab(tabPhantomStock, contentPhantomStock));
-            tabPup.addEventListener('click', () => activateTab(tabPup, contentPup));
+            <!-- Tabs -->
 
-            activateTab(tabPhantomStock, contentPhantomStock);
+            <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
 
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
-            const comparisonChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Retention Power', 'Alignment with Company Value', 'Simplicity for Recipient', 'Volatility Risk Mitigation', 'Regular Liquidity', 'True Ownership Feel'],
-                    datasets: [{
-                        label: 'Phantom Stock with Dividends',
-                        data: [4, 5, 4, 3, 5, 1],
-                        backgroundColor: 'rgba(0, 157, 210, 0.7)',
-                        borderColor: 'rgb(0, 157, 210)',
-                        borderWidth: 1
-                    }, {
-                        label: 'Performance Unit Plan (PUP) with Operational Payouts',
-                        data: [4, 2, 5, 5, 5, 1],
-                        backgroundColor: 'rgba(146, 140, 140, 0.7)',
-                        borderColor: 'rgb(146, 140, 140)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            max: 5,
-                            title: {
-                                display: true,
-                                text: 'Score (1=Low, 5=High)',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                },
-                                color: 'var(--color-pms-black)'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    if (Number.isInteger(value)) {
-                                        return value;
-                                    }
-                                }
-                            }
-                        },
-                        y: {
-                            ticks: {
-                                callback: function(value, index, ticks) {
-                                    const label = this.getLabelForValue(value);
-                                    if (label.length > 16) {
-                                        return label.split(' ').reduce((acc, word) => {
-                                            if (acc.length > 0 && (acc[acc.length - 1].length + word.length + 1) > 16) {
-                                                acc.push(word);
-                                            } else {
-                                                acc[acc.length - 1] = (acc.length > 0 ? acc[acc.length - 1] + ' ' : '') + word;
-                                            }
-                                            return acc;
-                                        }, ['']);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Model Attributes Comparison',
-                            font: { size: 18, weight: 'bold' },
-                            color: 'var(--color-pms-black)'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.x !== null) {
-                                        label += context.parsed.x + ' / 5';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
+                <button id="tab-phantom-stock" class="flex-shrink-0 px-6 py-3 font-semibold border-b-2" style="color: var(--color-primary-blue); border-color: var(--color-primary-blue);">Phantom Stock with Specialized Valuation & Dividends</button>
+
+                <button id="tab-pup" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Performance Unit Plan (PUP) with Operational Payouts</button>
+
+            </div>
+
+
+
+            <!-- Tab Content Containers -->
+
+            <div id="content-phantom-stock" class="space-y-8"></div>
+
+            <div id="content-pup" class="hidden space-y-8"></div>
+
+            
+
+            <!-- Qualitative Comparison Chart -->
+
+            <div class="mt-20">
+
+                 <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis</h3>
+
+                 <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the two models across key strategic attributes, highlighting their relative strengths for retention, alignment, and simplicity.</p>
+
+                <div class="bg-white p-8 rounded-lg shadow-md">
+
+                    <div class="chart-container">
+
+                        <canvas id="comparisonChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Key Advantages Section -->
+
+        <section id="advantages" class="section mb-24">
+
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Key Advantages of These Models</h2>
+
+             <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">All proposed models offer powerful benefits designed to meet our core objectives of retaining talent, preserving founder equity, and driving continuous performance.</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Zero Dilution</h3>
+
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Founders maintain full equity control with these synthetic options.</p>
+
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Strong Alignment</h3>
+
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Incentivizes leadership to drive long-term company value and specific performance goals.</p>
+
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Cash Liquidity</h3>
+
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Provides meaningful cash rewards, simplifying financial realization for recipients.</p>
+
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Powerful Retention</h3>
+
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Multi-year vesting schedules and performance periods encourage long-term commitment.</p>
+
+                </div>
+
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Regular Cash Flow</h3>
+
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Dividend equivalents offer consistent, periodic payouts, enhancing liquidity.</p>
+
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Flexibility</h3>
+
+                    <p class="text-gray-600" style="color: var(--color-cool-gray);">Each model can be tailored to our specific growth phases and leadership structure.</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Next Steps Section - Horizontal Roadmap -->
+
+        <section id="next-steps" class="section mb-24">
+
+            <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Implementation Roadmap</h2>
+
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">To move forward efficiently, we propose a structured roadmap with key milestones to finalize and implement the chosen equity sharing program.</p>
+
+            
+
+            <div class="timeline-container bg-white p-6 rounded-lg shadow-md">
+
+                <div class="timeline">
+
+                    <div class="timeline-line"></div>
+
+                    
+
+                    <div class="timeline-item top">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">Q3 2025</div>
+
+                            Program Design & Legal Review
+
+                        </div>
+
+                    </div>
+
+                    
+
+                    <div class="timeline-item bottom">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">Q4 2025</div>
+
+                            Executive Approval & Documentation Finalization
+
+                        </div>
+
+                    </div>
+
+                    
+
+                    <div class="timeline-item top">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">Q1 2026</div>
+
+                            Leadership Communication &  Issuance
+
+                        </div>
+
+                    </div>
+
+                    
+
+                    <div class="timeline-item bottom">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">Q2 2026</div>
+
+                            First Vesting / Payout Calculation
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="timeline-item top">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">Ongoing</div>
+
+                            Periodic Review & Adjustments
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+
+
+            const INITIAL_COMPANY_VALUE = 10;
+
+            const INITIAL_UNITS = 10000;
+
+            const ESTIMATION_PERIOD_YEARS = 3;
+
+
+
+            // --- Updated content for Phantom Stock with Valuation Options ---
+
+            const phantomStockContentHTML = `
+
+                <div class="grid lg:grid-cols-2 gap-8">
+
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Phantom Stock with Specialized Valuation & Dividends</h3>
+
+                        <div class="space-y-4">
+
+                            <div>
+
+                                <h4 class="font-semibold text-lg">What It Is</h4>
+
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A contract granting a cash payment equal to the appreciation in value of "phantom" shares, plus periodic dividend equivalents. No actual shares are issued.</p>
+
+                            </div>
+
+                            <div>
+
+                                <h4 class="font-semibold text-lg">How It Works</h4>
+
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
+
+                                    <li><b>Grant:</b> Awarded "phantom shares" at a current base value.</li>
+
+                                    <li><b>Vesting:</b> Vests over 1-3 years, exact schedule by executive decision, to ensure retention.</li>
+
+                                    <li><b>Dividend Equivalents:</b> Receive cash payments equal to declared dividends (or calculated equivalents) on phantom shares, paid quarterly.</li>
+
+                                    <li><b>Payout:</b> Upon vesting, recipient receives cash equal to the share value increase (calculated using chosen method below) plus cumulative dividend equivalents.</li>
+
+                                </ol>
+
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 pt-4">
+
+                                <div>
+
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
+
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
+
+                                        <li>Rewards value creation & ongoing performance in intangible-rich businesses.</li>
+
+                                        <li>No equity dilution.</li>
+
+                                        <li>Provides cash liquidity (both upfront & periodic).</li>
+
+                                        <li>Simple for the recipient.</li>
+
+                                        <li>Offers regular cash flow.</li>
+
+                                        <li>Tailored valuation methods reflect true drivers of value.</li>
+
+                                        <li>Avoids costly external valuations, using clear formulas.</li>
+
+                                        <li>Provides transparency and predictability for participants.</li>
+
+                                    </ul>
+
+                                </div>
+
+                                <div>
+
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
+
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
+
+                                        <li>Consistent cash flow for dividend equivalents needs to be managed.</li>
+
+                                        <li>Chosen valuation formula needs clear definition and understanding.</li>
+
+                                        <li>Careful selection of base metrics is essential.</li>
+
+                                        <li>Periodic review of formula relevance may be advisable.</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
+
+                        <div class="space-y-4">
+
+                            <div class="mb-4">
+
+                                <label for="phantom-stock-valuation-method" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Select Valuation Method:</label>
+
+                                <select id="phantom-stock-valuation-method" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                                    <option value="revenue">Adjusted Revenue Multiple Method</option>
+
+                                    <option value="ebitda">Adjusted EBITDA (or Gross Profit) Multiple Method</option>
+
+                                    <option value="client_value">Client/Contract Value Metric</option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div id="valuation-inputs" class="space-y-4">
+
+                                <!-- Dynamic inputs will be injected here -->
+
+                            </div>
+
+
+
+                            <div class="mb-4">
+
+                                <label for="phantom-stock-dividend-rate" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Payout Rate (% of current unit value): <span id="phantom-stock-dividend-rate-value" class="font-bold" style="color: var(--color-primary-blue);">1%</span></label>
+
+                                <input type="range" id="phantom-stock-dividend-rate" min="0" max="10" value="1" step="0.1">
+
+                            </div>
+
+                            <div class="mb-4">
+
+                                <label for="phantom-stock-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
+
+                                <select id="phantom-stock-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                                    <option value="4">Quarterly</option>
+
+                                    <option value="2">Semi-annually</option>
+
+                                    <option value="1">Annually</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
+
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Total Payout (Appreciation + Cumulative Dividends over ${ESTIMATION_PERIOD_YEARS} years)</p>
+
+                                <p id="phantom-stock-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000,000</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+
+            const pupContentHTML = `
+
+                <div class="grid lg:grid-cols-2 gap-8">
+
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+
+                        <h3 class="font-bold text-2xl mb-4" style="color: var(--color-pms-black);">Performance Unit Plan (PUP) with Operational Payouts</h3>
+
+                        <div class="space-y-4">
+
+                            <div>
+
+                                <h4 class="font-semibold text-lg">What It Is</h4>
+
+                                <p class="text-gray-600" style="color: var(--color-cool-gray);">A cash incentive program where "units" are earned based on specific operational or financial KPIs, with periodic cash payouts tied to achievement. The unit value is fixed and does not appreciate with overall company valuation.</p>
+
+                            </div>
+
+                            <div>
+
+                                <h4 class="font-semibold text-lg">How It Works</h4>
+
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1" style="color: var(--color-cool-gray);">
+
+                                    <li><b>Grant:</b> Awarded a target number of performance units (not tied to company shares).</li>
+
+                                    <li><b>KPIs:</b> Payouts are contingent on achievement of pre-defined operational/financial KPIs (e.g., uptime, efficiency, cost reduction).</li>
+
+                                    <li><b>Payouts:</b> Periodic (quarterly/semi-annually) cash payouts are made based on KPI achievement. Each unit has a fixed cash value.</li>
+
+                                    <li><b>No Link to Company Valuation:</b> Unit value does not appreciate with overall company valuation, reducing volatility risk for the company.</li>
+
+                                </ol>
+
+                            </div>
+
+                             <div class="grid grid-cols-2 gap-4 pt-4">
+
+                                <div>
+
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Benefits</h5>
+
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
+
+                                        <li>Directly rewards operational excellence.</li>
+
+                                        <li>Provides regular, predictable cash flow based on performance.</li>
+
+                                        <li>Simple to understand for specific goals.</li>
+
+                                        <li>Company is insulated from overall market volatility for payout value.</li>
+
+                                    </ul>
+
+                                </div>
+
+                                <div>
+
+                                    <h5 class="font-semibold" style="color: var(--color-pms-black);">Considerations</h5>
+
+                                    <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
+
+                                        <li>No link to overall company capital appreciation (less "ownership-like" feeling).</li>
+
+                                        <li>Payout capped by unit value and KPI achievement.</li>
+
+                                        <li>May require complex, specific KPI tracking.</li>
+
+                                        <li>Less attractive if leaders primarily seek equity upside.</li>
+
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+
+                        <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
+
+                        <div class="space-y-4">
+
+                           <div>
+
+                                <label for="pup-kpi-achievement" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Average KPI Achievement (over 1-3 years): <span id="pup-kpi-achievement-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
+
+                                <input type="range" id="pup-kpi-achievement" min="0" max="150" value="100" step="10">
+
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+
+                                <div>
+
+                                    <label for="pup-units" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Performance Units Granted</label>
+
+                                    <input type="number" id="pup-units" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                                </div>
+
+                                <div>
+
+                                    <label for="pup-unit-value" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Fixed Value Per Unit ($)</label>
+
+                                    <input type="number" id="pup-unit-value" value="1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-4">
+
+                                <label for="pup-frequency" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Payout Frequency</label>
+
+                                <select id="pup-frequency" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                                    <option value="4">Quarterly</option>
+
+                                    <option value="2">Semi-annually</option>
+
+                                    <option value="1">Annually</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
+
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cumulative Payout (over ${ESTIMATION_PERIOD_YEARS} years)</p>
+
+                                <p id="pup-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            
+
+            document.getElementById('content-phantom-stock').innerHTML = phantomStockContentHTML;
+
+            document.getElementById('content-pup').innerHTML = pupContentHTML;
+
+
+
+            const tabPhantomStock = document.getElementById('tab-phantom-stock');
+
+            const tabPup = document.getElementById('tab-pup');
+
+            const contentPhantomStock = document.getElementById('content-phantom-stock');
+
+            const contentPup = document.getElementById('content-pup');
+
+
+
+            function activateTab(activeTab, activeContent) {
+
+                [tabPhantomStock, tabPup].forEach(tab => {
+
+                    tab.classList.remove('text-blue-600', 'border-blue-600');
+
+                    tab.classList.add('text-gray-500');
+
+                    tab.style.color = 'var(--color-cool-gray)';
+
+                    tab.style.borderColor = 'transparent';
+
+                });
+
+                [contentPhantomStock, contentPup].forEach(content => content.classList.add('hidden'));
+
+
+
+                activeTab.classList.add('text-blue-600', 'border-blue-600');
+
+                activeTab.style.color = 'var(--color-primary-blue)';
+
+                activeTab.style.borderColor = 'var(--color-primary-blue)';
+
+                activeContent.classList.remove('hidden');
+
+            }
+
+
+
+            tabPhantomStock.addEventListener('click', () => activateTab(tabPhantomStock, contentPhantomStock));
+
+            tabPup.addEventListener('click', () => activateTab(tabPup, contentPup));
+
+
+
+            activateTab(tabPhantomStock, contentPhantomStock); // Default to Phantom Stock tab
+
+
+
+            // --- Dynamic Valuation Inputs for Phantom Stock ---
+
+            const valuationMethodSelect = document.getElementById('phantom-stock-valuation-method');
+
+            const valuationInputsDiv = document.getElementById('valuation-inputs');
+
+
+
+            function updateValuationInputs() {
+
+                const method = valuationMethodSelect.value;
+
+                let inputsHTML = '';
+
+
+
+                if (method === 'revenue') {
+
+                    inputsHTML = `
+
+                        <label for="phantom-stock-arr-tcv" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Recurring Revenue (ARR) / TCV ($M):</label>
+
+                        <input type="number" id="phantom-stock-arr-tcv" value="10" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                        <label for="phantom-stock-revenue-multiple" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Revenue Multiple (X):</label>
+
+                        <input type="number" id="phantom-stock-revenue-multiple" value="5" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                        <label for="phantom-stock-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
+
+                        <input type="number" id="phantom-stock-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                    `;
+
+                } else if (method === 'ebitda') {
+
+                    inputsHTML = `
+
+                        <label for="phantom-stock-ebitda-gp" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Adjusted EBITDA / Gross Profit ($M):</label>
+
+                        <input type="number" id="phantom-stock-ebitda-gp" value="2" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                        <label for="phantom-stock-ebitda-multiple" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">EBITDA/GP Multiple (X):</label>
+
+                        <input type="number" id="phantom-stock-ebitda-multiple" value="8" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                        <label for="phantom-stock-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
+
+                        <input type="number" id="phantom-stock-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                    `;
+
+                } else if (method === 'client_value') {
+
+                    inputsHTML = `
+
+                        <label for="phantom-stock-active-clients" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Number of Active Clients:</label>
+
+                        <input type="number" id="phantom-stock-active-clients" value="50" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                        <label for="phantom-stock-value-per-client" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Value Per Active Client ($):</label>
+
+                        <input type="number" id="phantom-stock-value-per-client" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                        <label for="phantom-stock-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
+
+                        <input type="number" id="phantom-stock-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+
+                    `;
+
+                }
+
+                valuationInputsDiv.innerHTML = inputsHTML;
+
+                attachPhantomStockInputListeners(); // Re-attach listeners after content update
+
+                calculatePhantomStockPayout(); // Recalculate after input change
+
+            }
+
+
+
+            // --- Payout Calculator Logic ---
+
+            function setupCalculator(type) {
+
+                // Determine the correct ID prefixes for the inputs
+
+                const growthSliderId = type === 'phantom-stock' ? `${type}-growth` : `${type}-kpi-achievement`;
+
+                const growthValueDisplayId = type === 'phantom-stock' ? `${type}-growth-value` : `${type}-kpi-achievement-value`;
+
+                const unitsInputId = type === 'phantom-stock' ? `${type}-shares` : `${type}-units`;
+
+                const initialValueInputId = type === 'phantom-stock' ? `${type}-initial-value` : `${type}-unit-value`;
+
+                const dividendRateSliderId = `${type}-dividend-rate`;
+
+                const dividendRateValueId = `${type}-dividend-rate-value`;
+
+                const frequencySelectId = `${type}-frequency`;
+
+
+
+                // Get elements using the derived IDs
+
+                const growthSlider = document.getElementById(growthSliderId);
+
+                const growthValueDisplay = document.getElementById(growthValueDisplayId);
+
+                const unitsInput = document.getElementById(unitsInputId);
+
+                const initialValueInput = document.getElementById(initialValueInputId);
+
+                const payoutDisplay = document.getElementById(`${type}-payout`);
+
+
+
+                const dividendRateSlider = document.getElementById(dividendRateSliderId);
+
+                const dividendRateValue = document.getElementById(dividendRateValueId);
+
+                const frequencySelect = document.getElementById(frequencySelectId);
+
+
+
+                function calculatePayout() {
+
+                    let units = parseFloat(unitsInput ? unitsInput.value : 0) || 0;
+
+                    let payout = 0;
+
+                    let cumulativeDividendPayout = 0;
+
+
+
+                    // Ensure growth value is read directly from the slider if it exists, otherwise default
+
+                    const growth = parseFloat(growthSlider ? growthSlider.value : 0);
+
+
+
+                    // For Phantom Stock and PUP, initial value is always from its specific input
+
+                    const initialValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
+
+
+
+
+
+                    if (growthValueDisplay) { // Update growth display only if the element exists
+
+                         if (type === 'phantom-stock') {
+
+                            growthValueDisplay.textContent = `${growth}%`;
+
+                        } else if (type === 'pup') {
+
+                            growthValueDisplay.textContent = `${growth}%`; // PUP uses 'growth' slider for KPI achievement
+
+                        }
+
+                    }
+
+
+
+                    if (type === 'phantom-stock') {
+
+                        const method = valuationMethodSelect.value;
+
+                        // Dynamically get specific valuation inputs based on current method
+
+                        const totalSharesInput = document.getElementById('phantom-stock-total-shares');
+
+                        const totalShares = parseFloat(totalSharesInput ? totalSharesInput.value : 1) || 1;
+
+                        
+
+                        let primaryMetricInput = null;
+
+                        let multipleInput = null;
+
+
+
+                        if (method === 'revenue') {
+
+                            primaryMetricInput = document.getElementById('phantom-stock-arr-tcv');
+
+                            multipleInput = document.getElementById('phantom-stock-revenue-multiple');
+
+                        } else if (method === 'ebitda') {
+
+                            primaryMetricInput = document.getElementById('phantom-stock-ebitda-gp');
+
+                            multipleInput = document.getElementById('phantom-stock-ebitda-multiple');
+
+                        } else if (method === 'client_value') {
+
+                            primaryMetricInput = document.getElementById('phantom-stock-active-clients');
+
+                            multipleInput = document.getElementById('phantom-stock-value-per-client');
+
+                        }
+
+
+
+                        // Get values safely with null checks
+
+                        const primaryMetric = parseFloat(primaryMetricInput ? primaryMetricInput.value : 0) || 0;
+
+                        const multiple = parseFloat(multipleInput ? multipleInput.value : 0) || 0;
+
+
+
+                        let companyValuation = 0;
+
+                        if (method === 'revenue' || method === 'ebitda') {
+
+                            companyValuation = primaryMetric * multiple * 1_000_000;
+
+                        } else if (method === 'client_value') {
+
+                            companyValuation = activeClients * valuePerClient; // Note: activeClients and valuePerClient should come from inputs
+
+                        }
+
+
+
+                        // Recalculate companyValuation based on actual inputs
+
+                        if (method === 'revenue' && primaryMetricInput && multipleInput) {
+
+                            companyValuation = parseFloat(primaryMetricInput.value || 0) * parseFloat(multipleInput.value || 0) * 1_000_000;
+
+                        } else if (method === 'ebitda' && primaryMetricInput && multipleInput) {
+
+                            companyValuation = parseFloat(primaryMetricInput.value || 0) * parseFloat(multipleInput.value || 0) * 1_000_000;
+
+                        } else if (method === 'client_value' && primaryMetricInput && multipleInput) {
+
+                             companyValuation = parseFloat(primaryMetricInput.value || 0) * parseFloat(multipleInput.value || 0);
+
+                        }
+
+
+
+
+
+                        const currentPhantomValuePerShare = (totalShares > 0) ? (companyValuation / totalShares) : initialValue;
+
+                        const appreciationPayout = (currentPhantomValuePerShare - initialValue) * units; // InitialValue is the base value per share
+
+
+
+                        const annualRate = parseFloat(dividendRateSlider ? dividendRateSlider.value : 0) / 100;
+
+                        const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
+
+                        if (dividendRateValue) dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
+
+
+
+                        let currentValueForDividendCalculation = initialValue; // Start dividend calculation from the initial share value
+
+                        const growthFactorPerPeriod = (1 + (growth / 100)); // Total growth over the period
+
+                        const annualGrowthRate = (growthFactorPerPeriod**(1/ESTIMATION_PERIOD_YEARS)) - 1; // Annualized growth rate
+
+
+
+                        cumulativeDividendPayout = 0;
+
+                        for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
+
+                            // Dividend base is current value per share for that year, compounded by annualized growth
+
+                            let effectiveValueForYear = initialValue * ((1 + annualGrowthRate) ** year);
+
+                            for (let period = 0; period < frequency; period++) {
+
+                                const periodDividendPerUnit = effectiveValueForYear * (annualRate / frequency);
+
+                                cumulativeDividendPayout += (periodDividendPerUnit * units);
+
+                            }
+
+                        }
+
+                        payout = appreciationPayout + cumulativeDividendPayout;
+
+
+
+                    } else if (type === 'pup') {
+
+                        const kpiAchievementRate = parseFloat(growthSlider ? growthSlider.value : 0) / 100;
+
+                        const fixedUnitValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
+
+                        const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
+
+                        
+
+                        cumulativeDividendPayout = 0; // Cumulative payout for PUP is total for the period
+
+                        
+
+                        for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
+
+                            for (let period = 0; period < frequency; period++) {
+
+                                const periodPayout = fixedUnitValue * units * (kpiAchievementRate / frequency);
+
+                                cumulativeDividendPayout += periodPayout;
+
+                            }
+
+                        }
+
+                        payout = cumulativeDividendPayout;
+
+                    }
+
+
+
+                    if (payoutDisplay) payoutDisplay.textContent = `$${payout.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+
+                }
+
+
+
+                // Attach listeners
+
+                if (growthSlider) growthSlider.addEventListener('input', calculatePayout);
+
+                if (unitsInput) unitsInput.addEventListener('input', calculatePayout);
+
+                if (initialValueInput) initialValueInput.addEventListener('input', calculatePayout);
+
+
+
+                // For types that have dividend rate/frequency selectors
+
+                if (dividendRateSlider) dividendRateSlider.addEventListener('input', calculatePayout);
+
+                if (frequencySelect) frequencySelect.addEventListener('change', calculatePayout);
+
+                
+
+                calculatePayout(); 
+
+            }
+
+
+
+            // Attaches listeners for Phantom Stock specific valuation inputs
+
+            function attachPhantomStockInputListeners() {
+
+                const method = valuationMethodSelect.value;
+
+                let inputsToAttach = [];
+
+
+
+                if (method === 'revenue') {
+
+                    inputsToAttach = ['phantom-stock-arr-tcv', 'phantom-stock-revenue-multiple', 'phantom-stock-total-shares'];
+
+                } else if (method === 'ebitda') {
+
+                    inputsToAttach = ['phantom-stock-ebitda-gp', 'phantom-stock-ebitda-multiple', 'phantom-stock-total-shares'];
+
+                } else if (method === 'client_value') {
+
+                    inputsToAttach = ['phantom-stock-active-clients', 'phantom-stock-value-per-client', 'phantom-stock-total-shares'];
+
+                }
+
+
+
+                inputsToAttach.forEach(id => {
+
+                    const inputElement = document.getElementById(id);
+
+                    if (inputElement) { // Crucial null check here
+
+                        inputElement.removeEventListener('input', calculatePhantomStockPayout); // Prevent duplicate listeners
+
+                        inputElement.addEventListener('input', calculatePhantomStockPayout);
+
+                    }
+
+                });
+
+            }
+
+
+
+            // This global function simplifies calling the Phantom Stock calculator
+
+            function calculatePhantomStockPayout() {
+
+                // Ensure initialValueInput for phantom-stock is correctly retrieved here
+
+                const phantomInitialValueInput = document.getElementById('phantom-stock-initial-value');
+
+                const phantomUnitsInput = document.getElementById('phantom-stock-shares');
+
+                
+
+                // Only proceed if core inputs are present, otherwise error might occur
+
+                if (phantomInitialValueInput && phantomUnitsInput) {
+
+                    setupCalculator('phantom-stock');
+
+                }
+
+            }
+
+
+
+            // Initial setup and population
+
+            document.getElementById('content-phantom-stock').innerHTML = phantomStockContentHTML;
+
+            document.getElementById('content-pup').innerHTML = pupContentHTML;
+
+
+
+            // Initialize Phantom Stock specific valuation inputs FIRST and trigger its initial calculation
+
+            updateValuationInputs(); 
+
+
+
+            // Setup PUP calculator, this will also trigger its initial calculation
+
+            setupCalculator('pup');
+
+
+
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+
+            const comparisonChart = new Chart(ctx, {
+
+                type: 'bar',
+
+                data: {
+
+                    labels: ['Retention Power', 'Alignment with Company Value', 'Simplicity for Recipient', 'Volatility Risk Mitigation', 'Regular Liquidity', 'True Ownership Feel'],
+
+                    datasets: [{
+
+                        label: 'Phantom Stock with Dividends',
+
+                        data: [5, 5, 4, 4, 5, 3], // Scores for Phantom Stock: High alignment, regular liquidity, moderate simplicity, low true ownership
+
+                        backgroundColor: 'rgba(0, 157, 210, 0.7)',
+
+                        borderColor: 'rgb(0, 157, 210)',
+
+                        borderWidth: 1
+
+                    }, {
+
+                        label: 'Performance Unit Plan (PUP) with Operational Payouts',
+
+                        data: [4, 2, 5, 5, 5, 1], // Scores for PUP: High simplicity, regular liquidity, high volatility mitigation (fixed value), low alignment with overall company value, no true ownership
+
+                        backgroundColor: 'rgba(146, 140, 140, 0.7)',
+
+                        borderColor: 'rgb(146, 140, 140)',
+
+                        borderWidth: 1
+
+                    }]
+
+                },
+
+                options: {
+
+                    indexAxis: 'y',
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        x: {
+
+                            beginAtZero: true,
+
+                            max: 5,
+
+                            title: {
+
+                                display: true,
+
+                                text: 'Score (1=Low, 5=High)',
+
+                                font: {
+
+                                    size: 14,
+
+                                    weight: 'bold'
+
+                                },
+
+                                color: 'var(--color-pms-black)'
+
+                            },
+
+                            ticks: {
+
+                                callback: function(value) {
+
+                                    if (Number.isInteger(value)) {
+
+                                        return value;
+
+                                    }
+
+                                }
+
+                            }
+
+                        },
+
+                        y: {
+
+                            ticks: {
+
+                                callback: function(value, index, ticks) {
+
+                                    const label = this.getLabelForValue(value);
+
+                                    if (label.length > 16) {
+
+                                        return label.split(' ').reduce((acc, word) => {
+
+                                            if (acc.length > 0 && (acc[acc.length - 1].length + word.length + 1) > 16) {
+
+                                                acc.push(word);
+
+                                            } else {
+
+                                                acc[acc.length - 1] = (acc.length > 0 ? acc[acc.length - 1] + ' ' : '') + word;
+
+                                            }
+
+                                            return acc;
+
+                                        }, ['']);
+
+                                    }
+
+                                    return label;
+
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+                    plugins: {
+
+                        title: {
+
+                            display: true,
+
+                            text: 'Model Attributes Comparison',
+
+                            font: { size: 18, weight: 'bold' },
+
+                            color: 'var(--color-pms-black)'
+
+                        },
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    let label = context.dataset.label || '';
+
+                                    if (label) {
+
+                                        label += ': ';
+
+                                    }
+
+                                    if (context.parsed.x !== null) {
+
+                                        label += context.parsed.x + ' / 5';
+
+                                    }
+
+                                    return label;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        });
+
+    </script>
+
 </body>
-</html>
+
+</html>"
