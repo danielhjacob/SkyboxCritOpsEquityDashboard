@@ -147,7 +147,7 @@
             </div>
             <!-- Logo: Blue infinity symbol and black "CriticalOps" wordmark -->
             <div class="flex items-center space-x-1">
-                <span class="text-3xl font-extrabold" style="color: var(--color-primary-blue);"></span>
+                <span class="text-3xl font-extrabold" style="color: var(--color-primary-blue);">∞</span>
                 <span class="text-2xl font-extrabold" style="color: var(--color-pms-black);">CriticalOps</span>
             </div>
         </nav>
@@ -158,12 +158,12 @@
         <!-- Introduction Section -->
         <section id="introduction" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Skybox CriticalOps Executive Equity Sharing Program</h2>
-            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Our initial year at Skybox CriticalOps marked rapid market entry and the successful launch of our hyperscale data center operations platform. To sustain this aggressive growth trajectory, competitive incentives directly tied to Skybox's value creation options have been requested by the executive team.</p>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Skybox CritOps achieved rapid market entry, successfully launching our hyperscale data center operations platform within its first year. To sustain this aggressive growth trajectory and secure long-term leadership commitment, competitive incentives aligned with Skybox's exponential value creation will be essential.</p>
             
             <div class="grid md:grid-cols-2 gap-8 items-center">
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <h3 class="font-bold text-2xl mb-2" style="color: var(--color-pms-black);">Opportunity: Aligning Incentives for Continued Value Creation</h3>
-                    <p style="color: var(--color-cool-gray);">The core objective here is to motivate and retain our senior leadership and foundational talent. We'll achieve this by directly aligning their long-term interests with Skybox's ongoing success, fostering shared value among those crucial to our past and future growth, and doing so while carefully maintaining founder equity control.</p>
+                    <p style="color: var(--color-cool-gray);">Our objective is to motivate and retain our senior leadership and foundational talent by directly aligning their long-term interests with Skybox's continued success. This approach aims to create shared value for those who have built and will continue to build our company, all while thoughtfully managing founder equity control.</p>
                 </div>
                 <div class="p-8 rounded-lg shadow-md" style="background-color: var(--color-primary-blue); color: var(--color-white);">
                     <h3 class="font-bold text-2xl mb-2">The Proposed Solution: Strategic "Synthetic Equity"</h3>
@@ -252,7 +252,7 @@
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q4 2025</div>
-                            Executive Approval & Documentation Finalization
+                            Board Approval & Documentation Finalization
                         </div>
                     </div>
                     
@@ -260,7 +260,7 @@
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q1 2026</div>
-                            Leadership Communication &  Issuance
+                            Leadership Communication & Grant Issuance
                         </div>
                     </div>
                     
@@ -292,7 +292,6 @@
             const INITIAL_UNITS = 10000;
             const ESTIMATION_PERIOD_YEARS = 3;
 
-            // --- Updated content for Phantom Stock with Valuation Options ---
             const phantomStockContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
@@ -308,7 +307,7 @@
                                     <li><b>Grant:</b> Awarded "phantom shares" at a current base value.</li>
                                     <li><b>Vesting:</b> Vests over 1-3 years, exact schedule by executive decision, to ensure retention.</li>
                                     <li><b>Dividend Equivalents:</b> Receive cash payments equal to declared dividends (or calculated equivalents) on phantom shares, paid quarterly.</li>
-                                    <li><b>Payout:</b> Upon vesting, recipient receives cash equal to the share value increase (calculated using chosen method below) plus cumulative dividend equivalents.</li>
+                                    <li><b>Appreciation Payout:</b> Occurs ONLY if the company sells. Upon a liquidity event, the recipient receives cash equal to the share value increase (calculated using chosen method below).</li>
                                 </ol>
                             </div>
                             <div class="grid grid-cols-2 gap-4 pt-4">
@@ -317,9 +316,9 @@
                                     <ul class="list-disc list-inside text-sm text-gray-500" style="color: var(--color-cool-gray);">
                                         <li>Rewards value creation & ongoing performance in intangible-rich businesses.</li>
                                         <li>No equity dilution.</li>
-                                        <li>Provides cash liquidity (both upfront & periodic).</li>
+                                        <li>Provides cash liquidity (only periodic dividends during employment).</li>
                                         <li>Simple for the recipient.</li>
-                                        <li>Offers regular cash flow.</li>
+                                        <li>Offers regular cash flow through dividends.</li>
                                         <li>Tailored valuation methods reflect true drivers of value.</li>
                                         <li>Avoids costly external valuations, using clear formulas.</li>
                                         <li>Provides transparency and predictability for participants.</li>
@@ -332,6 +331,7 @@
                                         <li>Chosen valuation formula needs clear definition and understanding.</li>
                                         <li>Careful selection of base metrics is essential.</li>
                                         <li>Periodic review of formula relevance may be advisable.</li>
+                                        <li>Appreciation payout is contingent on a future liquidity event (e.g., company sale).</li>
                                     </ul>
                                 </div>
                             </div>
@@ -366,8 +366,12 @@
                                 </select>
                             </div>
                             <div class="bg-slate-50 p-4 rounded-md text-center" style="background-color: var(--color-white);">
-                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Total Payout (Appreciation + Cumulative Dividends over ${ESTIMATION_PERIOD_YEARS} years)</p>
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Cumulative Dividends over ${ESTIMATION_PERIOD_YEARS} years</p>
                                 <p id="phantom-stock-payout" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$1,000,000</p>
+                            </div>
+                             <div class="bg-slate-50 p-4 rounded-md text-center mt-4" style="background-color: var(--color-white);">
+                                <p class="text-sm text-gray-500" style="color: var(--color-cool-gray);">Estimated Appreciation upon Company Sale</p>
+                                <p id="phantom-stock-appreciation-sale" class="text-3xl font-bold" style="color: var(--color-primary-blue);">$0</p>
                             </div>
                         </div>
                     </div>
@@ -534,6 +538,7 @@
                 const unitsInput = document.getElementById(unitsInputId);
                 const initialValueInput = document.getElementById(initialValueInputId);
                 const payoutDisplay = document.getElementById(`${type}-payout`);
+                const appreciationSaleDisplay = document.getElementById('phantom-stock-appreciation-sale'); // Specific to Phantom Stock
 
                 const dividendRateSlider = document.getElementById(dividendRateSliderId);
                 const dividendRateValue = document.getElementById(dividendRateValueId);
@@ -541,114 +546,102 @@
 
                 function calculatePayout() {
                     let units = parseFloat(unitsInput ? unitsInput.value : 0) || 0;
-                    let payout = 0;
+                    let payout = 0; // Represents cumulative dividends for phantom stock, and total for PUP
+                    let appreciationPayoutOnSale = 0; // Specific to phantom stock
                     let cumulativeDividendPayout = 0;
 
-                    // Ensure growth value is read directly from the slider if it exists, otherwise default
                     const growth = parseFloat(growthSlider ? growthSlider.value : 0);
-
-                    // For Phantom Stock and PUP, initial value is always from its specific input
                     const initialValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
 
-
-                    if (growthValueDisplay) { // Update growth display only if the element exists
+                    if (growthValueDisplay) {
                          if (type === 'phantom-stock') {
                             growthValueDisplay.textContent = `${growth}%`;
                         } else if (type === 'pup') {
-                            growthValueDisplay.textContent = `${growth}%`; // PUP uses 'growth' slider for KPI achievement
+                            growthValueDisplay.textContent = `${growth}%`;
                         }
                     }
 
                     if (type === 'phantom-stock') {
                         const method = valuationMethodSelect.value;
-                        // Dynamically get specific valuation inputs based on current method
                         const totalSharesInput = document.getElementById('phantom-stock-total-shares');
                         const totalShares = parseFloat(totalSharesInput ? totalSharesInput.value : 1) || 1;
                         
-                        let primaryMetricInput = null;
-                        let multipleInput = null;
+                        let currentCompanyValuation = 0;
 
                         if (method === 'revenue') {
-                            primaryMetricInput = document.getElementById('phantom-stock-arr-tcv');
-                            multipleInput = document.getElementById('phantom-stock-revenue-multiple');
+                            const arrTcvInput = document.getElementById('phantom-stock-arr-tcv');
+                            const revenueMultipleInput = document.getElementById('phantom-stock-revenue-multiple');
+                            const arrTcv = parseFloat(arrTcvInput ? arrTcvInput.value : 0) || 0;
+                            const revenueMultiple = parseFloat(revenueMultipleInput ? revenueMultipleInput.value : 0) || 0;
+                            currentCompanyValuation = arrTcv * revenueMultiple * 1_000_000;
                         } else if (method === 'ebitda') {
-                            primaryMetricInput = document.getElementById('phantom-stock-ebitda-gp');
-                            multipleInput = document.getElementById('phantom-stock-ebitda-multiple');
+                            const ebitdaGpInput = document.getElementById('phantom-stock-ebitda-gp');
+                            const ebitdaMultipleInput = document.getElementById('phantom-stock-ebitda-multiple');
+                            const ebitdaGp = parseFloat(ebitdaGpInput ? ebitdaGpInput.value : 0) || 0;
+                            const ebitdaMultiple = parseFloat(ebitdaMultipleInput ? ebitdaMultipleInput.value : 0) || 0;
+                            currentCompanyValuation = ebitdaGp * ebitdaMultiple * 1_000_000;
                         } else if (method === 'client_value') {
-                            primaryMetricInput = document.getElementById('phantom-stock-active-clients');
-                            multipleInput = document.getElementById('phantom-stock-value-per-client');
+                            const activeClientsInput = document.getElementById('phantom-stock-active-clients');
+                            const valuePerClientInput = document.getElementById('phantom-stock-value-per-client');
+                            const activeClients = parseFloat(activeClientsInput ? activeClientsInput.value : 0) || 0;
+                            const valuePerClient = parseFloat(valuePerClientInput ? valuePerClientInput.value : 0) || 0;
+                            currentCompanyValuation = activeClients * valuePerClient;
                         }
+                        
+                        const currentPhantomValuePerShare = (totalShares > 0) ? (currentCompanyValuation / totalShares) : initialValue;
+                        const initialPhantomValuePerShare = initialValue;
 
-                        // Get values safely with null checks
-                        const primaryMetric = parseFloat(primaryMetricInput ? primaryMetricInput.value : 0) || 0;
-                        const multiple = parseFloat(multipleInput ? multipleInput.value : 0) || 0;
-
-                        let companyValuation = 0;
-                        if (method === 'revenue' || method === 'ebitda') {
-                            companyValuation = primaryMetric * multiple * 1_000_000;
-                        } else if (method === 'client_value') {
-                            companyValuation = activeClients * valuePerClient; // Note: activeClients and valuePerClient should come from inputs
-                        }
-
-                        // Recalculate companyValuation based on actual inputs
-                        if (method === 'revenue' && primaryMetricInput && multipleInput) {
-                            companyValuation = parseFloat(primaryMetricInput.value || 0) * parseFloat(multipleInput.value || 0) * 1_000_000;
-                        } else if (method === 'ebitda' && primaryMetricInput && multipleInput) {
-                            companyValuation = parseFloat(primaryMetricInput.value || 0) * parseFloat(multipleInput.value || 0) * 1_000_000;
-                        } else if (method === 'client_value' && primaryMetricInput && multipleInput) {
-                             companyValuation = parseFloat(primaryMetricInput.value || 0) * parseFloat(multipleInput.value || 0);
-                        }
-
-
-                        const currentPhantomValuePerShare = (totalShares > 0) ? (companyValuation / totalShares) : initialValue;
-                        const appreciationPayout = (currentPhantomValuePerShare - initialValue) * units; // InitialValue is the base value per share
+                        // Appreciation payout only happens if company sells
+                        appreciationPayoutOnSale = (currentPhantomValuePerShare - initialPhantomValuePerShare) * units;
 
                         const annualRate = parseFloat(dividendRateSlider ? dividendRateSlider.value : 0) / 100;
-                        const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
+                        const frequency = parseInt(frequencySelect ? frequencySelectSelect.value : 1);
                         if (dividendRateValue) dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
 
-                        let currentValueForDividendCalculation = initialValue; // Start dividend calculation from the initial share value
-                        const growthFactorPerPeriod = (1 + (growth / 100)); // Total growth over the period
-                        const annualGrowthRate = (growthFactorPerPeriod**(1/ESTIMATION_PERIOD_YEARS)) - 1; // Annualized growth rate
+                        let currentValueForDividendCalculation = initialValue;
+                        const totalGrowthRate = (growth / 100);
+                        const effectiveAnnualGrowthRate = (1 + totalGrowthRate)**(1/ESTIMATION_PERIOD_YEARS) - 1;
 
-                        cumulativeDividendPayout = 0;
                         for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                            // Dividend base is current value per share for that year, compounded by annualized growth
-                            let effectiveValueForYear = initialValue * ((1 + annualGrowthRate) ** year);
+                            const baseForDividend = initialValue * ((1 + effectiveAnnualGrowthRate) ** year);
                             for (let period = 0; period < frequency; period++) {
-                                const periodDividendPerUnit = effectiveValueForYear * (annualRate / frequency);
+                                const periodDividendPerUnit = baseForDividend * (annualRate / frequency);
                                 cumulativeDividendPayout += (periodDividendPerUnit * units);
                             }
                         }
-                        payout = appreciationPayout + cumulativeDividendPayout;
+                        payout = cumulativeDividendPayout;
+
+                        if (appreciationSaleDisplay) {
+                            appreciationSaleDisplay.textContent = `$${appreciationPayoutOnSale.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+                        }
 
                     } else if (type === 'pup') {
                         const kpiAchievementRate = parseFloat(growthSlider ? growthSlider.value : 0) / 100;
                         const fixedUnitValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
                         const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
                         
-                        cumulativeDividendPayout = 0; // Cumulative payout for PUP is total for the period
+                        cumulativeDividendPayout = 0;
                         
                         for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
                             for (let period = 0; period < frequency; period++) {
                                 const periodPayout = fixedUnitValue * units * (kpiAchievementRate / frequency);
-                                cumulativeDividendPayout += periodPayout;
+                                cumulativePayout += periodPayout;
                             }
                         }
-                        payout = cumulativeDividendPayout;
+                        payout = cumulativePayout;
                     }
 
                     if (payoutDisplay) payoutDisplay.textContent = `$${payout.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
                 }
 
-                // Attach listeners
                 if (growthSlider) growthSlider.addEventListener('input', calculatePayout);
                 if (unitsInput) unitsInput.addEventListener('input', calculatePayout);
                 if (initialValueInput) initialValueInput.addEventListener('input', calculatePayout);
 
-                // For types that have dividend rate/frequency selectors
-                if (dividendRateSlider) dividendRateSlider.addEventListener('input', calculatePayout);
-                if (frequencySelect) frequencySelect.addEventListener('change', calculatePayout);
+                if (type === 'phantom-stock' || type === 'pup') {
+                    if (dividendRateSlider) dividendRateSlider.addEventListener('input', calculatePayout);
+                    if (frequencySelect) frequencySelect.addEventListener('change', calculatePayout);
+                }
                 
                 calculatePayout(); 
             }
@@ -668,34 +661,33 @@
 
                 inputsToAttach.forEach(id => {
                     const inputElement = document.getElementById(id);
-                    if (inputElement) { // Crucial null check here
-                        inputElement.removeEventListener('input', calculatePhantomStockPayout); // Prevent duplicate listeners
+                    if (inputElement) {
+                        inputElement.removeEventListener('input', calculatePhantomStockPayout);
                         inputElement.addEventListener('input', calculatePhantomStockPayout);
                     }
                 });
             }
 
-            // This global function simplifies calling the Phantom Stock calculator
             function calculatePhantomStockPayout() {
-                // Ensure initialValueInput for phantom-stock is correctly retrieved here
                 const phantomInitialValueInput = document.getElementById('phantom-stock-initial-value');
                 const phantomUnitsInput = document.getElementById('phantom-stock-shares');
                 
-                // Only proceed if core inputs are present, otherwise error might occur
                 if (phantomInitialValueInput && phantomUnitsInput) {
                     setupCalculator('phantom-stock');
                 }
             }
 
-            // Initial setup and population
             document.getElementById('content-phantom-stock').innerHTML = phantomStockContentHTML;
             document.getElementById('content-pup').innerHTML = pupContentHTML;
 
-            // Initialize Phantom Stock specific valuation inputs FIRST and trigger its initial calculation
             updateValuationInputs(); 
-
-            // Setup PUP calculator, this will also trigger its initial calculation
+            calculatePhantomStockPayout(); 
             setupCalculator('pup');
+
+            tabPhantomStock.addEventListener('click', () => activateTab(tabPhantomStock, contentPhantomStock));
+            tabPup.addEventListener('click', () => activateTab(tabPup, contentPup));
+
+            activateTab(tabPhantomStock, contentPhantomStock);
 
             const ctx = document.getElementById('comparisonChart').getContext('2d');
             const comparisonChart = new Chart(ctx, {
@@ -704,13 +696,13 @@
                     labels: ['Retention Power', 'Alignment with Company Value', 'Simplicity for Recipient', 'Volatility Risk Mitigation', 'Regular Liquidity', 'True Ownership Feel'],
                     datasets: [{
                         label: 'Phantom Stock with Dividends',
-                        data: [5, 5, 4, 4, 5, 3], // Scores for Phantom Stock: High alignment, regular liquidity, moderate simplicity, low true ownership
+                        data: [4, 5, 4, 3, 5, 1],
                         backgroundColor: 'rgba(0, 157, 210, 0.7)',
                         borderColor: 'rgb(0, 157, 210)',
                         borderWidth: 1
                     }, {
                         label: 'Performance Unit Plan (PUP) with Operational Payouts',
-                        data: [4, 2, 5, 5, 5, 1], // Scores for PUP: High simplicity, regular liquidity, high volatility mitigation (fixed value), low alignment with overall company value, no true ownership
+                        data: [4, 2, 5, 5, 5, 1],
                         backgroundColor: 'rgba(146, 140, 140, 0.7)',
                         borderColor: 'rgb(146, 140, 140)',
                         borderWidth: 1
