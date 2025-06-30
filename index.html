@@ -1,4 +1,4 @@
-tive<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -147,7 +147,7 @@ tive<!DOCTYPE html>
             </div>
             <!-- Logo: Blue infinity symbol and black "CriticalOps" wordmark -->
             <div class="flex items-center space-x-1">
-                <span class="text-3xl font-extrabold" style="color: var(--color-primary-blue);"></span>
+                <span class="text-3xl font-extrabold" style="color: var(--color-primary-blue);">∞</span>
                 <span class="text-2xl font-extrabold" style="color: var(--color-pms-black);">CriticalOps</span>
             </div>
         </nav>
@@ -158,12 +158,12 @@ tive<!DOCTYPE html>
         <!-- Introduction Section -->
         <section id="introduction" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Skybox CriticalOps Executive Equity Sharing Program</h2>
-            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Our initial year at Skybox CritOps marked rapid market entry and the successful launch of our hyperscale data center operations platform. To sustain this growth trajectory and secure long-term leadership, competitive incentives directly tied to Skybox's value creation options have been requested.</p>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Skybox CritOps achieved rapid market entry, successfully launching our hyperscale data center operations platform within its first year. To sustain this aggressive growth trajectory and secure long-term leadership commitment, competitive incentives aligned with Skybox's exponential value creation will be essential.</p>
             
             <div class="grid md:grid-cols-2 gap-8 items-center">
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <h3 class="font-bold text-2xl mb-2" style="color: var(--color-pms-black);">Opportunity: Aligning Incentives for Continued Value Creation</h3>
-                    <p style="color: var(--color-cool-gray);">Our aim is to motivate and retain our senior leadership and foundational talent by directly aligning their long-term interests with Skybox's continued success. This creates shared value for those who have built and will keep building our company, all while thoughtfully managing founder equity control.</p>
+                    <p style="color: var(--color-cool-gray);">Our objective is to motivate and retain our senior leadership and foundational talent by directly aligning their long-term interests with Skybox's continued success. This approach aims to create shared value for those who have built and will continue to build our company, all while thoughtfully managing founder equity control.</p>
                 </div>
                 <div class="p-8 rounded-lg shadow-md" style="background-color: var(--color-primary-blue); color: var(--color-white);">
                     <h3 class="font-bold text-2xl mb-2">The Proposed Solution: Strategic "Synthetic Equity"</h3>
@@ -175,7 +175,7 @@ tive<!DOCTYPE html>
         <!-- Option Comparison Section -->
         <section id="comparison" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Solution Comparison</h2>
-            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the two proposed models for equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
+            <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Explore the proposed models for equity sharing. Use the tabs and interactive estimators to understand the mechanics and potential financial outcomes of each option, including how recurring payouts could function.</p>
 
             <!-- Tabs -->
             <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
@@ -189,8 +189,8 @@ tive<!DOCTYPE html>
             
             <!-- Qualitative Comparison Chart -->
             <div class="mt-20">
-                 <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis</h3>
-                 <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the two models across key strategic attributes, highlighting their relative strengths for retention, alignment, and simplicity.</p>
+                 <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis: Valuation Method Comparison</h3>
+                 <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the three *valuation methods* for Phantom Stock, highlighting their relative strengths across key attributes.</p>
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <div class="chart-container">
                         <canvas id="comparisonChart"></canvas>
@@ -252,7 +252,7 @@ tive<!DOCTYPE html>
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q4 2025</div>
-                            Executive Approval & Documentation Finalization
+                            Board Approval & Documentation Finalization
                         </div>
                     </div>
                     
@@ -260,7 +260,7 @@ tive<!DOCTYPE html>
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q1 2026</div>
-                            Leadership Communication &  Issuance
+                            Leadership Communication & Grant Issuance
                         </div>
                     </div>
                     
@@ -288,10 +288,11 @@ tive<!DOCTYPE html>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            const INITIAL_COMPANY_VALUE = 10;
-            const INITIAL_UNITS = 10000;
-            const ESTIMATION_PERIOD_YEARS = 3;
+            const INITIAL_COMPANY_VALUE = 10; // Initial value per phantom share/unit for calculation base
+            const INITIAL_UNITS = 10000;      // Default units granted
+            const ESTIMATION_PERIOD_YEARS = 3; // Vesting/estimation period
 
+            // --- Phantom Stock Content HTML ---
             const phantomStockContentHTML = `
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-lg shadow-md">
@@ -595,7 +596,7 @@ tive<!DOCTYPE html>
                         appreciationPayoutOnSale = (currentPhantomValuePerShare - initialPhantomValuePerShare) * units;
 
                         const annualRate = parseFloat(dividendRateSlider ? dividendRateSlider.value : 0) / 100;
-                        const frequency = parseInt(frequencySelect ? frequencySelectSelect.value : 1);
+                        const frequency = parseInt(frequencySelect ? frequencySelect.value : 1); // Fixed: Use frequencySelect.value
                         if (dividendRateValue) dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
 
                         let currentValueForDividendCalculation = initialValue;
@@ -620,7 +621,7 @@ tive<!DOCTYPE html>
                         const fixedUnitValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
                         const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
                         
-                        cumulativeDividendPayout = 0;
+                        cumulativeDividendPayout = 0; // Initialize for PUP
                         
                         for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
                             for (let period = 0; period < frequency; period++) {
