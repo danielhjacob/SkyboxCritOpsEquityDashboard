@@ -1,3 +1,20 @@
+Please see the updated HTML code below with the requested changes.
+
+I've made the following modifications:
+
+  * **Adjusted Revenue Multiple:** Removed the "Revenue Multiple (X)" and "Company Value Growth" sections from the interactive estimator. The calculation now directly uses "Annual Recurring Revenue (ARR) / TCV" and "Total Phantom Shares (for calculation)" to determine the initial value per share, and the dividend calculation uses the "Initial Value Per Share" along with the dividend rate and frequency.
+  * **Adjusted EBITDA/Gross Profit Multiple:** Similarly, removed the "EBITDA/GP Multiple (X)" and "Company Value Growth" sections. The calculation now uses "Adjusted EBITDA / Gross Profit" and "Total Phantom Shares (for calculation)" for the initial value per share, with dividends based on the "Initial Value Per Share."
+  * **Client/Contract Value Metric:**
+      * Changed the "Number of Active Clients" input to "Total Contract Revenue Actualized (Prior Quarter) ($M)".
+      * Removed "Value Per Active Client ($)".
+      * Removed "Company Value Growth".
+      * The payout calculation is now based on this "Total Contract Revenue Actualized (Prior Quarter)" and the "Total Phantom Shares (for calculation)" to determine the initial value per share, with dividends then calculated from the "Initial Value Per Share."
+  * **Qualitative Analysis Chart:** The bar chart now includes 6 attributes for comparison: "Revenue Alignment," "Profitability Reflection," "Simplicity / Transparency," "Retention Power," "Motivation for Growth," and "Cash Flow Alignment." I've updated the scores for each method to reflect a nuanced comparison.
+  * **Implementation Roadmap:** Changed "Grant Issuance" to "Share Issuance".
+
+<!-- end list -->
+
+```html
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -9,10 +26,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: CriticalOps Brand Palette (Bright Blue: RGB 0, 157, 210; Cool Gray: RGB 146, 140, 140; PMS Black: RGB 0, 0, 0; White: RGB 255, 255, 255; Bright Orange: RGB 243, 120, 33) -->
-    <!-- Application Structure Plan: The application is structured as a single-page narrative dashboard. It starts with a high-level context, introduces the core equity sharing concept, then dives into the "Phantom Stock" model. The "Solution Comparison" section now focuses exclusively on the three distinct valuation methods for Phantom Stock, presenting each method in its own tab with dedicated content and an interactive estimator. This allows executives to deeply explore how company value is derived under different scenarios. A qualitative chart compares these valuation methods. Key advantages and a robust horizontal implementation roadmap conclude the report. This structure prioritizes detailed understanding of the chosen equity model's core mechanics. -->
-    <!-- Visualization & Content Choices: The core of the report is now the comparison of valuation methods. A tabbed interface presents each method (Adjusted Revenue Multiple, Adjusted EBITDA/Gross Profit Multiple, Client/Contract Value Metric) with its description, benefits, and considerations. Each tab also includes an interactive "Payout Estimator" specific to that valuation method, using sliders and inputs to make financial mechanics tangible. A horizontal bar chart from Chart.js compares these *valuation methods* across attributes like "Revenue Alignment," "Profitability Reflection," and "Simplicity." Key benefits and the implementation roadmap are presented using clean HTML/CSS layouts, with the roadmap specifically designed as a horizontal timeline with benchmarks to visually represent the project phases. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         :root {
             --color-primary-blue: rgb(0, 157, 210);
@@ -136,7 +149,6 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header & Navigation -->
     <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50" style="background-color: rgba(255, 255, 255, 0.8);">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex space-x-6 text-sm font-semibold">
@@ -145,14 +157,12 @@
                 <a href="#advantages" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Key Advantages</a>
                 <a href="#next-steps" class="hover:text-blue-600 transition-colors" style="color: var(--color-cool-gray);">Roadmap</a>
             </div>
-            <!-- Removed Logo from top right -->
             <div></div> 
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-12">
 
-        <!-- Introduction Section -->
         <section id="introduction" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Skybox CriticalOps Executive Equity Sharing Program</h2>
             <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">Our initial year at Skybox CriticalOps marked rapid market entry and the successful launch of our hyperscale data center operations platform. To sustain this growth trajectory, competitive incentives directly tied to Skybox's value creation options have been requested by the executive team.</p>
@@ -169,27 +179,23 @@
             </div>
         </section>
 
-        <!-- Option Comparison Section -->
         <section id="comparison" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Phantom Stock: Specialized Valuation Methods</h2>
             <p class="text-center text-lg max-w-4xl mx-auto mb-12" style="color: var(--color-cool-gray);">Given that total assets are truly just contract values and human capital, traditional valuation methods are less applicable. We need valuation methods that capture the recurring revenue, profitability generated by human capital, or the sheer volume of contractual work. Explore the options below.</p>
 
-            <!-- Tabs for Valuation Methods -->
             <div class="mb-8 flex justify-center border-b border-gray-200 overflow-x-auto" style="border-color: var(--color-cool-gray);">
                 <button id="tab-revenue" class="flex-shrink-0 px-6 py-3 font-semibold border-b-2" style="color: var(--color-primary-blue); border-color: var(--color-primary-blue);">Adjusted Revenue Multiple</button>
                 <button id="tab-ebitda" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Adjusted EBITDA/Gross Profit Multiple</button>
                 <button id="tab-client-value" class="flex-shrink-0 px-6 py-3 font-semibold" style="color: var(--color-cool-gray);">Client/Contract Value Metric</button>
             </div>
 
-            <!-- Tab Content Containers for each Valuation Method -->
             <div id="content-revenue" class="space-y-8"></div>
             <div id="content-ebitda" class="hidden space-y-8"></div>
             <div id="content-client-value" class="hidden space-y-8"></div>
             
-            <!-- Qualitative Comparison Chart -->
             <div class="mt-20">
-                 <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis: Valuation Method Comparison</h3>
-                 <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the three *valuation methods* for Phantom Stock, highlighting their relative strengths across key attributes.</p>
+                <h3 class="text-3xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Qualitative Analysis: Valuation Method Comparison</h3>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">This chart provides a visual comparison of the three *valuation methods* for Phantom Stock, highlighting their relative strengths across key attributes.</p>
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <div class="chart-container">
                         <canvas id="comparisonChart"></canvas>
@@ -198,10 +204,9 @@
             </div>
         </section>
 
-        <!-- Key Advantages Section -->
         <section id="advantages" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Key Advantages of Phantom Stock Model</h2>
-             <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">The Phantom Stock model offers powerful benefits designed to meet our core objectives of retaining talent, preserving founder equity, and driving continuous performance, particularly suited for our business model.</p>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">The Phantom Stock model offers powerful benefits designed to meet our core objectives of retaining talent, preserving founder equity, and driving continuous performance, particularly suited for our business model.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Zero Dilution</h3>
@@ -219,7 +224,7 @@
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Powerful Retention</h3>
                     <p class="text-gray-600" style="color: var(--color-cool-gray);">Multi-year vesting schedules and performance periods encourage long-term commitment.</p>
                 </div>
-                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
+                   <div class="bg-white p-6 rounded-lg shadow-md border-l-4" style="border-color: var(--color-primary-blue);">
                     <h3 class="font-bold text-lg mb-2" style="color: var(--color-pms-black);">Regular Cash Flow</h3>
                     <p class="text-gray-600" style="color: var(--color-cool-gray);">Dividend equivalents offer consistent, periodic payouts, enhancing liquidity.</p>
                 </div>
@@ -230,7 +235,6 @@
             </div>
         </section>
 
-        <!-- Next Steps Section - Horizontal Roadmap -->
         <section id="next-steps" class="section mb-24">
             <h2 class="text-4xl font-bold text-center mb-4" style="color: var(--color-pms-black);">Implementation Roadmap</h2>
             <p class="text-center text-lg max-w-3xl mx-auto mb-12" style="color: var(--color-cool-gray);">To move forward efficiently, we propose a structured roadmap with key milestones to finalize and implement the chosen equity sharing program.</p>
@@ -259,7 +263,7 @@
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-title">Q1 2026</div>
-                            Leadership Communication & Grant Issuance
+                            Leadership Communication & Share Issuance
                         </div>
                     </div>
                     
@@ -329,13 +333,8 @@
                         <div class="space-y-4">
                             <label for="revenue-arr-tcv" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Annual Recurring Revenue (ARR) / TCV ($M):</label>
                             <input type="number" id="revenue-arr-tcv" value="10" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                            <label for="revenue-multiple" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Revenue Multiple (X):</label>
-                            <input type="number" id="revenue-multiple" value="5" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                             <label for="revenue-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
                             <input type="number" id="revenue-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                            
-                            <label for="revenue-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over vesting period, 1-3 years): <span id="revenue-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
-                            <input type="range" id="revenue-growth" min="0" max="500" value="100" step="10">
                             
                             <label for="revenue-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Phantom Shares Granted</label>
                             <input type="number" id="revenue-shares" value="${INITIAL_UNITS}" step="100" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
@@ -399,13 +398,8 @@
                         <div class="space-y-4">
                             <label for="ebitda-ebitda-gp" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Adjusted EBITDA / Gross Profit ($M):</label>
                             <input type="number" id="ebitda-ebitda-gp" value="2" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                            <label for="ebitda-multiple" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">EBITDA/GP Multiple (X):</label>
-                            <input type="number" id="ebitda-multiple" value="8" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                             <label for="ebitda-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
                             <input type="number" id="ebitda-total-shares" value="100000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                            
-                            <label for="ebitda-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over vesting period, 1-3 years): <span id="ebitda-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
-                            <input type="range" id="ebitda-growth" min="0" max="500" value="100" step="10">
                             
                             <label for="ebitda-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Phantom Shares Granted</label>
                             <input type="number" id="ebitda-shares" value="${INITIAL_UNITS}" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
@@ -468,15 +462,10 @@
                     <div class="bg-white p-8 rounded-lg shadow-md">
                         <h3 class="font-bold text-xl mb-4" style="color: var(--color-pms-black);">Interactive Payout Estimator</h3>
                         <div class="space-y-4">
-                            <label for="client-value-active-clients" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Number of Active Clients:</label>
-                            <input type="number" id="client-value-active-clients" value="50" step="1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                            <label for="client-value-value-per-client" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Value Per Active Client ($):</label>
-                            <input type="number" id="client-value-value-per-client" value="100000" step="1000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
+                            <label for="client-value-actualized-revenue" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Contract Revenue Actualized (Prior Quarter) ($M):</label>
+                            <input type="number" id="client-value-actualized-revenue" value="5" step="0.1" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
                             <label for="client-value-total-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Total Phantom Shares (for calculation):</label>
                             <input type="number" id="client-value-total-shares" value="100000" step="1000" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
-                            
-                            <label for="client-value-growth" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Company Value Growth (over vesting period, 1-3 years): <span id="client-value-growth-value" class="font-bold" style="color: var(--color-primary-blue);">100%</span></label>
-                            <input type="range" id="client-value-growth" min="0" max="500" value="100" step="10">
                             
                             <label for="client-value-shares" class="block font-semibold text-sm mb-1" style="color: var(--color-pms-black);">Phantom Shares Granted</label>
                             <input type="number" id="client-value-shares" value="${INITIAL_UNITS}" step="100" class="w-full p-2 border border-gray-300 rounded-md" style="border-color: var(--color-cool-gray);">
@@ -546,8 +535,6 @@
             // --- Payout Calculator Logic ---
             function setupCalculator(type) {
                 // Common elements across all valuation types
-                const growthSlider = document.getElementById(`${type}-growth`);
-                const growthValueDisplay = document.getElementById(`${type}-growth-value`);
                 const unitsInput = document.getElementById(`${type}-shares`); // All phantom stock options use 'shares'
                 const initialValueInput = document.getElementById(`${type}-initial-value`);
                 const payoutDisplay = document.getElementById(`${type}-payout`);
@@ -563,12 +550,7 @@
                     let appreciationPayoutOnSale = 0;
                     let cumulativeDividendPayout = 0;
 
-                    const growth = parseFloat(growthSlider ? growthSlider.value : 0);
                     const initialValue = parseFloat(initialValueInput ? initialValueInput.value : 0) || 0;
-
-                    if (growthValueDisplay) {
-                        growthValueDisplay.textContent = `${growth}%`;
-                    }
 
                     // --- Valuation-specific calculations for currentPhantomValuePerShare ---
                     let currentCompanyValuation = 0;
@@ -577,22 +559,20 @@
 
                     if (type === 'revenue') {
                         const arrTcvInput = document.getElementById('revenue-arr-tcv');
-                        const revenueMultipleInput = document.getElementById('revenue-multiple');
                         const arrTcv = parseFloat(arrTcvInput ? arrTcvInput.value : 0) || 0;
-                        const revenueMultiple = parseFloat(revenueMultipleInput ? revenueMultipleInput.value : 0) || 0;
-                        currentCompanyValuation = arrTcv * revenueMultiple * 1_000_000;
+                        // For simplicity, without a multiple, assuming the ARR/TCV itself represents 'value' for calculation base.
+                        // If a fixed internal multiple is desired, it can be hardcoded here.
+                        currentCompanyValuation = arrTcv * 1_000_000; 
                     } else if (type === 'ebitda') {
                         const ebitdaGpInput = document.getElementById('ebitda-ebitda-gp');
-                        const ebitdaMultipleInput = document.getElementById('ebitda-multiple');
                         const ebitdaGp = parseFloat(ebitdaGpInput ? ebitdaGpInput.value : 0) || 0;
-                        const ebitdaMultiple = parseFloat(ebitdaMultipleInput ? ebitdaMultipleInput.value : 0) || 0;
-                        currentCompanyValuation = ebitdaGp * ebitdaMultiple * 1_000_000;
+                        // For simplicity, without a multiple, assuming EBITDA/GP itself represents 'value' for calculation base.
+                        currentCompanyValuation = ebitdaGp * 1_000_000;
                     } else if (type === 'client-value') {
-                        const activeClientsInput = document.getElementById('client-value-active-clients');
-                        const valuePerClientInput = document.getElementById('client-value-value-per-client');
-                        const activeClients = parseFloat(activeClientsInput ? activeClientsInput.value : 0) || 0;
-                        const valuePerClient = parseFloat(valuePerClientInput ? valuePerClientInput.value : 0) || 0;
-                        currentCompanyValuation = activeClients * valuePerClient;
+                        const actualizedRevenueInput = document.getElementById('client-value-actualized-revenue');
+                        const actualizedRevenue = parseFloat(actualizedRevenueInput ? actualizedRevenueInput.value : 0) || 0;
+                        // "Total Contract Revenue Actualized (Prior Quarter)" is directly used as the company's valuation basis
+                        currentCompanyValuation = actualizedRevenue * 1_000_000;
                     }
                     
                     const currentPhantomValuePerShare = (totalShares > 0) ? (currentCompanyValuation / totalShares) : initialValue;
@@ -605,13 +585,13 @@
                     const frequency = parseInt(frequencySelect ? frequencySelect.value : 1);
                     if (dividendRateValue) dividendRateValue.textContent = `${(annualRate * 100).toFixed(1)}%`;
 
-                    const totalGrowthRate = (growth / 100);
-                    const effectiveAnnualGrowthRate = (1 + totalGrowthRate)**(1/ESTIMATION_PERIOD_YEARS) - 1;
+                    // Dividends are based on the initial value per share
+                    // For dividends, the base remains the initial value per share, as dividends are typically a percentage of that initial phantom share value, not tied to a fluctuating company valuation growth unless explicitly modeled.
+                    const dividendBasePerShare = initialPhantomValuePerShare;
 
                     for (let year = 0; year < ESTIMATION_PERIOD_YEARS; year++) {
-                        const baseForDividend = initialValue * ((1 + effectiveAnnualGrowthRate) ** year);
                         for (let period = 0; period < frequency; period++) {
-                            const periodDividendPerUnit = baseForDividend * (annualRate / frequency);
+                            const periodDividendPerUnit = dividendBasePerShare * (annualRate / frequency);
                             cumulativeDividendPayout += (periodDividendPerUnit * units);
                         }
                     }
@@ -624,37 +604,25 @@
                 }
 
                 // Attach listeners for common inputs
-                if (growthSlider) growthSlider.addEventListener('input', calculatePayout);
                 if (unitsInput) unitsInput.addEventListener('input', calculatePayout);
                 if (initialValueInput) initialValueInput.addEventListener('input', calculatePayout);
                 if (dividendRateSlider) dividendRateSlider.addEventListener('input', calculatePayout);
                 if (frequencySelect) frequencySelect.addEventListener('change', calculatePayout);
                 
-                // Initial calculation for this specific type
-                calculatePayout(); 
-            }
-
-            // Attaches listeners for Phantom Stock specific valuation inputs (dynamic)
-            function attachPhantomStockInputListeners() {
-                const method = valuationMethodSelect.value;
-                let inputsToAttach = [];
-
-                if (method === 'revenue') {
-                    inputsToAttach = ['revenue-arr-tcv', 'revenue-multiple', 'revenue-total-shares'];
-                } else if (method === 'ebitda') {
-                    inputsToAttach = ['ebitda-ebitda-gp', 'ebitda-multiple', 'ebitda-total-shares'];
-                } else if (method === 'client_value') {
-                    inputsToAttach = ['client-value-active-clients', 'client-value-value-per-client', 'client-value-total-shares'];
+                // Attach listeners for valuation-specific inputs
+                if (type === 'revenue') {
+                    document.getElementById('revenue-arr-tcv').addEventListener('input', calculatePayout);
+                    document.getElementById('revenue-total-shares').addEventListener('input', calculatePayout);
+                } else if (type === 'ebitda') {
+                    document.getElementById('ebitda-ebitda-gp').addEventListener('input', calculatePayout);
+                    document.getElementById('ebitda-total-shares').addEventListener('input', calculatePayout);
+                } else if (type === 'client-value') {
+                    document.getElementById('client-value-actualized-revenue').addEventListener('input', calculatePayout);
+                    document.getElementById('client-value-total-shares').addEventListener('input', calculatePayout);
                 }
 
-                inputsToAttach.forEach(id => {
-                    const inputElement = document.getElementById(id);
-                    if (inputElement) {
-                        // Remove existing listeners to prevent duplicates
-                        inputElement.removeEventListener('input', () => setupCalculator(method)); 
-                        inputElement.addEventListener('input', () => setupCalculator(method));
-                    }
-                });
+                // Initial calculation for this specific type
+                calculatePayout(); 
             }
 
             // Initial content injection for all tabs
@@ -662,44 +630,30 @@
             document.getElementById('content-ebitda').innerHTML = ebitdaContentHTML;
             document.getElementById('content-client-value').innerHTML = clientValueContentHTML;
 
-            // Now get the elements after they are in the DOM
-            const valuationMethodSelect = document.getElementById('phantom-stock-valuation-method');
-            const valuationInputsDiv = document.getElementById('valuation-inputs');
-
-            // Attach the event listener to the valuation method select
-            valuationMethodSelect.addEventListener('change', () => {
-                updateValuationInputs(); // This will rebuild inputs and re-attach listeners
-            });
-
-
             // Activate the default tab and set up its calculator
             activateTab(tabRevenue, contentRevenue); // This calls setupCalculator('revenue')
-
-            // Setup listeners for the valuation method dropdown and its dynamic inputs
-            updateValuationInputs(); // This populates initial revenue inputs and attaches listeners
-
 
             // --- Comparison Chart ---
             const ctx = document.getElementById('comparisonChart').getContext('2d');
             const comparisonChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Revenue Alignment', 'Profitability Reflection', 'Simplicity / Transparency', 'Volatility (Lower is Better)'],
+                    labels: ['Revenue Alignment', 'Profitability Reflection', 'Simplicity / Transparency', 'Retention Power', 'Motivation for Growth', 'Cash Flow Alignment'],
                     datasets: [{
                         label: 'Adjusted Revenue Multiple Method',
-                        data: [5, 3, 4, 3], // Scores out of 5
+                        data: [5, 3, 4, 4, 4, 3], // Scores out of 5
                         backgroundColor: 'rgba(0, 157, 210, 0.7)', /* Primary Blue */
                         borderColor: 'rgb(0, 157, 210)',
                         borderWidth: 1
                     }, {
                         label: 'Adjusted EBITDA/Gross Profit Multiple Method',
-                        data: [4, 5, 3, 4], // Scores out of 5
+                        data: [4, 5, 3, 5, 5, 4], // Scores out of 5
                         backgroundColor: 'rgba(146, 140, 140, 0.7)', /* Cool Gray */
                         borderColor: 'rgb(146, 140, 140)',
                         borderWidth: 1
                     }, {
                         label: 'Client/Contract Value Metric',
-                        data: [5, 2, 5, 2], // Scores out of 5
+                        data: [5, 2, 5, 4, 5, 3], // Scores out of 5
                         backgroundColor: 'rgba(243, 120, 33, 0.7)', /* Bright Orange */
                         borderColor: 'rgb(243, 120, 33)',
                         borderWidth: 1
@@ -777,3 +731,4 @@
     </script>
 </body>
 </html>
+```
